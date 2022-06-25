@@ -1,0 +1,2785 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NetBaseLib</name>
+    </assembly>
+    <members>
+        <member name="T:System.Runtime.CompilerServices.AsyncMethodBuilderAttribute">
+            <summary>
+            AsyncMethodBuilder
+            </summary>
+        </member>
+        <member name="M:System.Runtime.CompilerServices.AsyncMethodBuilderAttribute.#ctor(System.Type)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="taskLike">类似Task类型</param>
+        </member>
+        <member name="T:NetBase.AsyncTaskQueue">
+            <summary>
+            异步任务队列，保证异步任务按顺序触发执行。
+            </summary>
+        </member>
+        <member name="M:NetBase.AsyncTaskQueue.AllocAwaiter">
+            <summary>
+            分配一个异步等待对象
+            </summary>
+            <returns>Awaiter</returns>
+        </member>
+        <member name="M:NetBase.AsyncTaskQueue.ReleaseAwaiter">
+            <summary>
+            释放异步等待对象
+            </summary>
+        </member>
+        <member name="M:NetBase.AsyncTaskQueue.Clear">
+            <summary>
+            清空
+            </summary>
+        </member>
+        <member name="T:NetBase.AsyncTaskQueue`1">
+            <summary>
+            多Key异步任务队列，保证异步任务按顺序触发执行。
+            </summary>
+            <typeparam name="T">Key类型</typeparam>
+        </member>
+        <member name="M:NetBase.AsyncTaskQueue`1.AllocAwaiter(`0)">
+            <summary>
+            分配一个指定Key的异步等待对象
+            </summary>
+            <param name="key">唯一键</param>
+            <returns>Awaiter</returns>
+        </member>
+        <member name="M:NetBase.AsyncTaskQueue`1.ReleaseAwaiter(`0)">
+            <summary>
+            释放指定key的异步等待对象
+            </summary>
+            <param name="key">唯一键</param>
+        </member>
+        <member name="M:NetBase.AsyncTaskQueue`1.Clear">
+            <summary>
+            清空
+            </summary>
+        </member>
+        <member name="F:NetBase.AwaiterStatus.Pending">
+            <summary>
+            The operation has not yet completed.
+            </summary>
+        </member>
+        <member name="F:NetBase.AwaiterStatus.Succeeded">
+            <summary>
+            The operation completed successfully.
+            </summary>
+        </member>
+        <member name="F:NetBase.AwaiterStatus.Faulted">
+            <summary>
+            The operation completed with an error.
+            </summary>
+        </member>
+        <member name="T:NetBase.GameAwaiter">
+            <summary>
+            游戏使用的异步等待对象
+            </summary>
+        </member>
+        <member name="P:NetBase.GameAwaiter.CompletedAwaiter">
+            <summary>
+            已完成的Awaiter
+            </summary>
+        </member>
+        <member name="M:NetBase.GameAwaiter.SetTimeoutException(System.Int32,System.String)">
+            <summary>
+            设置超时时间，超时后会抛出System.TimeoutException异常
+            </summary>
+            <param name="timeoutInMillionSeconds">超时时间，单位毫秒</param>
+            <param name="extraInfo">附加调试信息</param>
+        </member>
+        <member name="M:NetBase.GameAwaiter.SetTimeoutResult(System.Int32,System.String)">
+            <summary>
+            设置超时时间，超时后会主动触发完成
+            </summary>
+            <param name="timeoutInMillionSeconds">超时时间，单位毫秒</param>
+            <param name="extraInfo">附加调试信息</param>
+        </member>
+        <member name="M:NetBase.GameAwaiter.GetAwaiter">
+            <summary>
+            await过程中由编译器回调
+            </summary>
+            <returns>this</returns>
+        </member>
+        <member name="M:NetBase.GameAwaiter.Wait">
+            <summary>
+            同步等待完成，因为会阻塞主线程，请谨慎使用！
+            </summary>
+        </member>
+        <member name="M:NetBase.GameAwaiter.GetResult">
+            <summary>
+            获取结果，由.net回调
+            </summary>
+        </member>
+        <member name="P:NetBase.GameAwaiter.IsCompleted">
+            <summary>
+            是否已完成，由.net回调
+            </summary>
+        </member>
+        <member name="M:NetBase.GameAwaiter.OnCompleted(System.Action)">
+            <summary>
+            完成触发，由.net回调
+            </summary>
+            <param name="continuation">异步过程拆分并重新封装后的Action</param>
+        </member>
+        <member name="M:NetBase.GameAwaiter.UnsafeOnCompleted(System.Action)">
+            <summary>
+            完成触发，由.net回调
+            </summary>
+            <param name="continuation">异步过程拆分并重新封装后的Action</param>
+        </member>
+        <member name="M:NetBase.GameAwaiter.SetResult">
+            <summary>
+            设置结果，由逻辑层主动调用
+            </summary>
+        </member>
+        <member name="M:NetBase.GameAwaiter.TrySetResult">
+            <summary>
+            尝试设置结果，由逻辑层主动调用
+            </summary>
+            <returns>如果已设置过结果，则返回失败</returns>
+        </member>
+        <member name="M:NetBase.GameAwaiter.SetException(System.Exception)">
+            <summary>
+            设置异常，异常对象将会传递到异步调用过程
+            </summary>
+            <param name="e">异常对象</param>
+        </member>
+        <member name="M:NetBase.GameAwaiter.FromResult``1(``0)">
+            <summary>
+            创建已激活的、无需等待的Awaiter对象
+            </summary>
+            <param name="result">结果</param>
+            <returns>已激活的Awaiter对象</returns>
+        </member>
+        <member name="M:NetBase.GameAwaiter.CreateActiveAwaiter">
+            <summary>
+            创建已激活的、无需等待的Awaiter对象
+            </summary>
+            <returns>已激活的Awaiter对象</returns>
+        </member>
+        <member name="T:NetBase.GameAwaiter`1">
+            <summary>
+            游戏使用的指定类型的异步对象
+            </summary>
+            <typeparam name="T">指定类型</typeparam>
+        </member>
+        <member name="M:NetBase.GameAwaiter`1.SetTimeoutException(System.Int32,System.String)">
+            <summary>
+            设置超时时间，超时后会抛出System.TimeoutException异常
+            </summary>
+            <param name="timeoutInMillionSeconds">超时时间，单位毫秒</param>
+            <param name="extraInfo">附加调试信息</param>
+        </member>
+        <member name="M:NetBase.GameAwaiter`1.SetTimeoutResult(System.Int32,System.String,`0)">
+            <summary>
+            设置超时时间，超时后会使用预设结果主动触发完成
+            </summary>
+            <param name="timeoutInMillionSeconds">超时时间，单位毫秒</param>
+            <param name="extraInfo">附加调试信息</param>
+            <param name="result">预设结果</param>
+        </member>
+        <member name="M:NetBase.GameAwaiter`1.GetAwaiter">
+            <summary>
+            await过程中由编译器回调
+            </summary>
+            <returns>this</returns>
+        </member>
+        <member name="M:NetBase.GameAwaiter`1.Wait">
+            <summary>
+            同步等待结果，因为会阻塞主线程，请谨慎使用！
+            </summary>
+            <returns>结果</returns>
+        </member>
+        <member name="M:NetBase.GameAwaiter`1.GetResult">
+            <summary>
+            获取结果，由.net回调
+            </summary>
+            <returns>结果</returns>
+        </member>
+        <member name="P:NetBase.GameAwaiter`1.IsCompleted">
+            <summary>
+            是否已完成，由.net回调
+            </summary>
+        </member>
+        <member name="M:NetBase.GameAwaiter`1.OnCompleted(System.Action)">
+            <summary>
+            完成触发，由.net回调
+            </summary>
+            <param name="continuation">异步过程拆分并重新封装后的Action</param>
+        </member>
+        <member name="M:NetBase.GameAwaiter`1.UnsafeOnCompleted(System.Action)">
+            <summary>
+            完成触发，由.net回调
+            </summary>
+            <param name="continuation">异步过程拆分并重新封装后的Action</param>
+        </member>
+        <member name="M:NetBase.GameAwaiter`1.SetResult(`0)">
+            <summary>
+            设置结果，由逻辑层主动调用
+            </summary>
+            <param name="result">结果</param>
+        </member>
+        <member name="M:NetBase.GameAwaiter`1.TrySetResult(`0)">
+            <summary>
+            尝试设置结果，由逻辑层调用
+            </summary>
+            <param name="result">结果</param>
+            <returns>如果已设置过结果则返回失败</returns>
+        </member>
+        <member name="M:NetBase.GameAwaiter`1.SetException(System.Exception)">
+            <summary>
+            设置异常，异常对象将会传递到异步调用过程
+            </summary>
+            <param name="e">异常对象</param>
+        </member>
+        <member name="M:NetBase.GameAwaiter`1.ToGameAwaiter``1(System.Func{`0,``0})">
+            <summary>
+            将T类型Awaiter对象转换为OtherType其他类型的Awaiter
+            </summary>
+            <typeparam name="OtherType">其他类型</typeparam>
+            <param name="converter">转换函数</param>
+            <returns>其他类型的Awaiter对象</returns>
+        </member>
+        <member name="M:NetBase.GameAwaiter`1.op_Explicit(NetBase.GameAwaiter{`0})~NetBase.GameAwaiter">
+            <summary>
+            将带参数的Awaiter对象显式转换成无参Awaiter对象
+            </summary>
+            <param name="c">带参数的Awaiter对象</param>
+        </member>
+        <member name="M:NetBase.GameAwaiter`1.FromResult(`0)">
+            <summary>
+            创建已激活的、无需等待的Awaiter对象
+            </summary>
+            <param name="result">结果</param>
+            <returns>已激活的Awaiter对象</returns>
+        </member>
+        <member name="M:NetBase.GameAwaiter`1.CreateActiveAwaiter(`0)">
+            <summary>
+            创建已激活的、无需等待的Awaiter对象
+            </summary>
+            <param name="result">结果</param>
+            <returns>已激活的Awaiter对象</returns>
+        </member>
+        <member name="T:NetBase.GameAwaiterBuilder">
+            <summary>
+            自定义类任务Builder
+            </summary>
+        </member>
+        <member name="M:NetBase.GameAwaiterBuilder.Create">
+            <summary>
+            创建Builder对象
+            </summary>
+            <returns>新实例</returns>
+        </member>
+        <member name="M:NetBase.GameAwaiterBuilder.SetResult">
+            <summary>
+            设置结果
+            </summary>
+        </member>
+        <member name="M:NetBase.GameAwaiterBuilder.SetException(System.Exception)">
+            <summary>
+            产生了异常
+            </summary>
+            <param name="e">异常</param>
+        </member>
+        <member name="P:NetBase.GameAwaiterBuilder.Task">
+            <summary>
+            获取任务
+            </summary>
+        </member>
+        <member name="M:NetBase.GameAwaiterBuilder.Start``1(``0@)">
+            <summary>
+            启动
+            </summary>
+            <typeparam name="TStateMachine">状态机类型</typeparam>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="M:NetBase.GameAwaiterBuilder.AwaitOnCompleted``2(``0@,``1@)">
+            <summary>
+            完成了一个await
+            </summary>
+            <typeparam name="TAwaiter">awaiter类型</typeparam>
+            <typeparam name="TStateMachine">状态机类型</typeparam>
+            <param name="awaiter">awaiter对象</param>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="M:NetBase.GameAwaiterBuilder.AwaitUnsafeOnCompleted``2(``0@,``1@)">
+            <summary>
+            完成了一个await
+            </summary>
+            <typeparam name="TAwaiter">awaiter类型</typeparam>
+            <typeparam name="TStateMachine">状态机类型</typeparam>
+            <param name="awaiter">awaiter对象</param>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="M:NetBase.GameAwaiterBuilder.SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine)">
+            <summary>
+            设置状态机
+            </summary>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="T:NetBase.GameAwaiterBuilder`1">
+            <summary>
+            自定义类任务Builder
+            </summary>
+            <typeparam name="T">返回值类型</typeparam>
+        </member>
+        <member name="M:NetBase.GameAwaiterBuilder`1.Create">
+            <summary>
+            创建builder实例
+            </summary>
+            <returns>新实例</returns>
+        </member>
+        <member name="M:NetBase.GameAwaiterBuilder`1.SetResult(`0)">
+            <summary>
+            设置结果
+            </summary>
+            <param name="result">结果</param>
+        </member>
+        <member name="M:NetBase.GameAwaiterBuilder`1.SetException(System.Exception)">
+            <summary>
+            产生了异常
+            </summary>
+            <param name="e">异常</param>
+        </member>
+        <member name="P:NetBase.GameAwaiterBuilder`1.Task">
+            <summary>
+            获取任务
+            </summary>
+        </member>
+        <member name="M:NetBase.GameAwaiterBuilder`1.Start``1(``0@)">
+            <summary>
+            启动
+            </summary>
+            <typeparam name="TStateMachine">状态机类型</typeparam>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="M:NetBase.GameAwaiterBuilder`1.AwaitOnCompleted``2(``0@,``1@)">
+            <summary>
+            完成了一个await
+            </summary>
+            <typeparam name="TAwaiter">awaiter类型</typeparam>
+            <typeparam name="TStateMachine">状态机类型</typeparam>
+            <param name="awaiter">awaiter对象</param>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="M:NetBase.GameAwaiterBuilder`1.AwaitUnsafeOnCompleted``2(``0@,``1@)">
+            <summary>
+            完成了一个await
+            </summary>
+            <typeparam name="TAwaiter">awaiter类型</typeparam>
+            <typeparam name="TStateMachine">状态机类型</typeparam>
+            <param name="awaiter">awaiter对象</param>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="M:NetBase.GameAwaiterBuilder`1.SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine)">
+            <summary>
+            设置状态机
+            </summary>
+            <param name="stateMachine">状态机</param>
+        </member>
+        <member name="T:NetBase.BaseApplication">
+            <summary>
+            基础应用程序类
+            </summary>
+        </member>
+        <member name="F:NetBase.BaseApplication.VersionCode">
+            <summary>
+            NetBaseLib库版本号
+            </summary>
+        </member>
+        <member name="E:NetBase.BaseApplication.InitEvent">
+            <summary>
+            应用程序初始化回调事件
+            </summary>
+        </member>
+        <member name="E:NetBase.BaseApplication.MainLoopEvent">
+            <summary>
+            应用程序每帧回调事件
+            </summary>
+        </member>
+        <member name="E:NetBase.BaseApplication.UnInitEvent">
+            <summary>
+            应用程序回收清理事件
+            </summary>
+        </member>
+        <member name="F:NetBase.BaseApplication.CloseEvent">
+            <summary>
+            应用程序关闭事件
+            </summary>
+        </member>
+        <member name="P:NetBase.BaseApplication.ModuleName">
+            <summary>
+            可执行文件名称（不包含扩展名）
+            </summary>
+        </member>
+        <member name="P:NetBase.BaseApplication.ApplicationExitWithPause">
+            <summary>
+            应用程序退出时是否暂停，等待一个输入指令再退出
+            </summary>
+        </member>
+        <member name="M:NetBase.BaseApplication.IsMainThread">
+            <summary>
+            判断当前运行线程是否是主线程
+            </summary>
+            <returns>返回当前运行线程是否是主线程</returns>
+        </member>
+        <member name="M:NetBase.BaseApplication.RunInMainThread(System.Action)">
+            <summary>
+            在主线程中执行回调
+            </summary>
+            <param name="callback">回调函数</param>
+        </member>
+        <member name="M:NetBase.BaseApplication.RegisterCommandHandler(System.String,System.String,System.Action{NetBase.CommandArgs})">
+            <summary>
+            注册GM命令处理函数
+            </summary>
+            <param name="commandName">GM命令</param>
+            <param name="desc">命令描述</param>
+            <param name="handler">处理回调函数</param>
+        </member>
+        <member name="M:NetBase.BaseApplication.RunCommand(System.String)">
+            <summary>
+            执行GM命令
+            </summary>
+            <param name="commandLine">GM命令串</param>
+        </member>
+        <member name="M:NetBase.BaseApplication.Close(System.String)">
+            <summary>
+            执行正常关闭逻辑
+            </summary>
+            <param name="reason">关闭原因</param>
+        </member>
+        <member name="M:NetBase.BaseApplication.CloseByKickoff(System.String,System.String)">
+            <summary>
+            程序被踢出
+            </summary>
+            <param name="kickoffActor">踢出者信息</param>
+            <param name="reason">踢出原因</param>
+        </member>
+        <member name="M:NetBase.BaseApplication.Quit">
+            <summary>
+            CloseEvent回调函数中需要在合适时机调用Quit函数来退出进程
+            </summary>
+        </member>
+        <member name="M:NetBase.BaseApplication.Run">
+            <summary>
+            主循环
+            </summary>
+        </member>
+        <member name="M:NetBase.BaseApplication.runOneFrame">
+            <summary>
+            运行一帧，返回是否繁忙
+            </summary>
+            <returns>是否繁忙</returns>
+        </member>
+        <member name="M:NetBase.BaseApplication.DoEvents">
+            <summary>
+            运行一帧逻辑，该函数必须在主线程调用，其他工作线程调用无意义。
+            </summary>
+        </member>
+        <member name="T:NetBase.BaseExtensions">
+            <summary>
+            基础通用扩展类
+            </summary>
+        </member>
+        <member name="M:NetBase.BaseExtensions.SwapToBackAndRemove``1(System.Collections.Generic.List{``0},``0)">
+            <summary>
+            将指定元素与末尾元素互换位置，并移除末尾元素
+            </summary>
+            <typeparam name="T">泛型</typeparam>
+            <param name="list">列表容器</param>
+            <param name="obj">指定元素</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:NetBase.BaseExtensions.SwapToBackAndRemoveAt``1(System.Collections.Generic.List{``0},System.Int32)">
+            <summary>
+            将指定�
+            </summary>
+            <typeparam name="T">泛型</typeparam>
+            <param name="list">列表容器</param>
+            <returns>随机元素</returns>
+        </member>
+        <member name="M:NetBase.BaseExtensions.GetRandomElement``1(Newtonsoft.Json.Linq.JArray)">
+            <summary>
+            从JArray中随机一个元素并转换为指定类型
+            </summary>
+            <typeparam name="T">指定类型</typeparam>
+            <param name="jarr">JArray对象</param>
+            <returns>随机元素转换的值</returns>
+        </member>
+        <member name="M:NetBase.BaseExtensions.Shuffle``1(System.Collections.Generic.List{``0})">
+            <summary>
+            List打乱顺序
+            </summary>
+            <typeparam name="T">泛型</typeparam>
+            <param name="src">列表容器</param>
+        </member>
+        <member name="M:NetBase.BaseExtensions.Shuffle``1(``0[])">
+            <summary>
+            数组打乱顺序
+            </summary>
+            <typeparam name="T">泛型</typeparam>
+            <param name="src">数组</param>
+        </member>
+        <member name="M:NetBase.BaseExtensions.ToRandomWeight``1(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{``0,System.Int32}})">
+            <summary>
+            将KeyValuePair集合转化为RandomWeight对象
+            </summary>
+            <typeparam name="T">值类型</typeparam>
+            <param name="sourceArray">数据源</param>
+            <returns>随机权重对象</returns>
+        </member>
+        <member name="M:NetBase.BaseExtensions.GetRandomIndexByRandomWeightArray(System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            根据随机权重数据源数组获得随机索引，该索引从0开始
+            </summary>
+            <param name="randomWeightSourceArray">随机权重数据源数组</param>
+            <returns>从0开始的索引</returns>
+        </member>
+        <member name="M:NetBase.BaseExtensions.ContainsEmoji(System.String)">
+            <summary>
+            判断字符串是否包含emoji表情
+            </summary>
+            <param name="sourceString">源字符串</param>
+            <returns>是否包含</returns>
+        </member>
+        <member name="M:NetBase.BaseExtensions.MysqlEscapeStringWithLimitLength(System.String,System.Int32)">
+            <summary>
+            将源字符串根据mysql规则进行转义，如果源串超过指定字节数则转义失败返回null
+            </summary>
+            <param name="sourceString">源串</param>
+            <param name="maxLengthInBytes">允许的最大长度</param>
+            <returns>成功返回转义后的字符串 失败返回null</returns>
+        </member>
+        <member name="M:NetBase.BaseExtensions.IsProtocolReq(System.String)">
+            <summary>
+            判断协议名称是否以'Req'结尾
+            </summary>
+            <param name="protoName">协议名称</param>
+            <returns>是否以Req结尾</returns>
+        </member>
+        <member name="M:NetBase.BaseExtensions.IsProtocolAck(System.String)">
+            <summary>
+            判断协议名称是否以'Ack'结尾
+            </summary>
+            <param name="protoName">协议名称</param>
+            <returns>是否以Ack结尾</returns>
+        </member>
+        <member name="T:NetBase.CommandArgs">
+            <summary>
+            命令行参数辅助类
+            </summary>
+        </member>
+        <member name="M:NetBase.CommandArgs.HasFlag(System.String)">
+            <summary>
+            是否包含某个标记 -xx
+            </summary>
+            <param name="flag">标记字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:NetBase.CommandArgs.TryGetValue(System.String,System.String@)">
+            <summary>
+            尝试查询某个key对应的值
+            </summary>
+            <param name=".CommandArgs.HasFlag(System.String)">
+            <summary>
+            是否包含某个标记 -xx
+            </summary>
+            <param name="flag">标记字符串</param>
+            <returns></returns>
+        </member>
+        <member name="M:NetBase.CommandArgs.TryGetValue(System.String,System.String@)">
+            <summary>
+            尝试查询某个key对应的值
+            </summary>
+            <param name="key">通过 -key=value 定义的key值</param>
+            <param name="strValue">传出value</param>
+            <returns>是否存在</returns>
+        </member>
+        <member name="P:NetBase.CommandArgs.Item(System.Int32)">
+            <summary>
+            查询通过空格分隔的第i个值
+            </summary>
+            <param name="i">从0开始的索引</param>
+            <returns>该索引对应的值，如果不存在返回空串</returns>
+        </member>
+        <member name="P:NetBase.CommandArgs.Count">
+            <summary>
+            参数个数
+            </summary>
+        </member>
+        <member name="T:NetBase.CryptoRandom">
+            <summary>
+            自定义强随机类
+            </summary>
+        </member>
+        <member name="M:NetBase.CryptoRandom.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:NetBase.CryptoRandom.#ctor(System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="ignoredSeed">种子，该参数已忽略</param>
+        </member>
+        <member name="M:NetBase.CryptoRandom.Next">
+            <summary>
+            获取下一个随机数
+            </summary>
+            <returns>随机数</returns>
+        </member>
+        <member name="M:NetBase.CryptoRandom.Next(System.Int32)">
+            <summary>
+            在[0, maxValue)范围内获取下一个随机数
+            </summary>
+            <param name="maxValue">上限（不含）</param>
+            <returns>随机数</returns>
+        </member>
+        <member name="M:NetBase.CryptoRandom.Next(System.Int32,System.Int32)">
+            <summary>
+            在[minValue, maxValue)范围内获取下一个随机数
+            </summary>
+            <param name="minValue">下限（包含）</param>
+            <param name="maxValue">上限（不含）</param>
+            <returns>随机数</returns>
+        </member>
+        <member name="M:NetBase.CryptoRandom.NextDouble(System.Double,System.Double)">
+            <summary>
+            在[minValue, maxValue)范围内获取下一个浮点随机数
+            </summary>
+            <param name="minValue">下限（包含）</param>
+            <param name="maxValue">上限（不含）</param>
+            <returns>随机数</returns>
+        </member>
+        <member name="M:NetBase.CryptoRandom.NextDouble">
+            <summary>
+            在[0, 1)范围内获取下一个浮点随机数
+            </summary>
+            <returns>随机数</returns>
+        </member>
+        <member name="M:NetBase.CryptoRandom.NextBytes(System.Byte[])">
+            <summary>
+            获取随机字节数组
+            </summary>
+            <param name="buffer">接收随机字节数组的缓冲区</param>
+        </member>
+        <member name="T:NetBase.DownloadCore">
+            <summary>
+            通用http下载类
+            </summary>
+        </member>
+        <member name="M:NetBase.DownloadCore.DownloadFile(System.String,System.String,System.Action{System.Boolean})">
+            <summary>
+            下载单个文件保存到本地磁盘
+            </summary>
+            <param name="url">url地址</param>
+            <param name="fullFilePath">保存磁盘完整路径</param>
+            <param name="callback">下载完成回调函数</param>
+        </member>
+        <member name="M:NetBase.DownloadCore.DownloadFileAsync(System.String,System.String)">
+            <summary>
+            下载单个文件保存到本地磁盘
+            </summary>
+            <param name="url">url地址</param>
+            <param name="fullFilePath">保存磁盘完整路径</param>
+            <returns>awaiter对象</returns>
+        </member>
+        <member name="M:NetBase.DownloadCore.DownloadFilesAsync(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            下载多个文件保存到本地磁盘
+            </summary>
+            <param name="urlDirs">url下载地址和本地保存路径的对应关系字典</param>
+            <returns>awaiter对象</returns>
+        </member>
+        <member name="T:NetBase.RandomWeight`1">
+            <summary>
+            权重随机类
+            </summary>
+            <typeparam name="T">指定类型</typeparam>
+        </member>
+        <member name="M:NetBase.RandomWeight`1.Clear">
+            <summary>
+            清空
+            </summary>
+        </member>
+        <member name="M:NetBase.RandomWeight`1.IsEmpty">
+            <summary>
+            是否空的
+            </summary>
+            <returns>为空返回true 否则false</returns>
+        </member>
+        <member name="M:NetBase.RandomWeight`1.AddValue(`0,System.Int32)">
+            <summary>
+            添加一个元素并指定权重
+            </summary>
+            <param name="value">元素</param>
+            <param name="weight">权重</param>
+        </member>
+        <member name="M:NetBase.RandomWeight`1.RemoveValue(`0)">
+            <summary>
+            移除元素
+            </summary>
+            <param name="value">元素</param>
+        </member>
+        <member name="M:NetBase.RandomWeight`1.GetNextValue">
+            <summary>
+            根据权重随机下一个元素
+            </summary>
+            <returns>随机元素</returns>
+        </member>
+        <member name="M:NetBase.RandomWeight`1.GetNextValueWithKick(System.Collections.Generic.HashSet{`0})">
+            <summary>
+            在指定容器范围外根据权重随机下一个元素
+            </summary>
+            <param name="vset">指定容器</param>
+            <returns>随机元素</returns>
+        </member>
+        <member name="M:NetBase.RandomWeight`1.GetNextValueWithIndex(System.Int32@)">
+            <summary>
+            根据权重随机下一个元素，并取得对应的索引
+            </summary>
+            <param name="index">对应索引</param>
+            <returns>随机元素</returns>
+        </member>
+        <member name="T:NetBase.Utility">
+            <summary>
+            多功能静态类
+            </summary>
+        </member>
+        <member name="P:NetBase.Utility.WorkPath">
+            <summary>
+            应用程序所在目录
+            </summary>
+        </member>
+        <member name="M:NetBase.Utility.MdBuffer(System.Byte[])">
+            <summary>
+            计算缓冲区的Md5
+            </summary>
+        </member>
+        <member name="M:NetBase.Utility.MdBuffer(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            计算缓冲区的Md5
+            </summary>
+        </member>
+        <member name="M:NetBase.Utility.MdString(System.String)">
+            <summary>
+            计算字符串的UTF8格式Md5值
+            </summary>
+        </member>
+        <member name="M:NetBase.Utility.MdFile(System.String)">
+            <summary>
+            计算文件的Md5值
+            </summary>
+        </member>
+        <member name="M:NetBase.Utility.GenerateCharString(System.Int32)">
+            <summary>
+            使用[0-9a-zA-Z]生成随机字符串
+            </summary>
+            <param name="bits">随机字符个数</param>
+            <returns>随机字符串</returns>
+        </member>
+        <member name="M:NetBase.Utility.RandomInt(System.Int32)">
+            <summary>
+            返回0到maxValue之间的随机整数，左开右闭区间
+            </summary>
+            <param name="maxValue">随机数最大值</param>
+            <returns>[0,maxValue)</returns>
+        </member>
+        <member name="M:NetBase.Utility.RandomInt(System.Int32,System.Int32)">
+            <summary>
+            返回指定两个数字之间的随机整数
+            </summary>
+            <param name="minValue">minValue</param>
+            <param name="maxValue">maxValue</param>
+            <returns>[minValue,maxValue)</returns>
+        </member>
+        <member name="M:NetBase.Utility.RandomHit(System.Double)">
+            <summary>
+            判断是否命中某个概率
+            </summary>
+            <param name="rate">概率，取值0-1</param>
+            <returns>是否命中</returns>
+        </member>
+        <member name="M:NetBase.Utility.RandomHitByTimes(System.Double,System.Int32)">
+            <summary>
+            执行多次，判断是否命中某概率
+            </summary>
+            <param name="rate">概率，取值0-1</param>
+            <param name="times">执行次数</param>
+            <returns>是否命中</returns>
+        </member>
+        <member name="M:NetBase.Utility.RandomDouble">
+            <summary>
+            获取0-1之间的一个随机小数
+            </summary>
+            <returns>0到1之间的随机小数</returns>
+        </member>
+        <member name="M:NetBase.Utility.RandomDouble(System.Double,System.Double)">
+            <summary>
+            获取指定两个数字之间的随机小数
+            </summary>
+            <param name="minValue">minValue</param>
+            <param name="maxValue">maxValue</param>
+            <returns>指定数字之间的随机小数</returns>
+        </member>
+        <member name="M:NetBase.Utility.RandomBytes(System.Byte[])">
+            <summary>
+            使用随机数填充缓冲区
+            </summary>
+            <param name="buffer">字节缓冲区</param>
+        </member>
+        <member name="M:NetBase.Utility.Swap``1(``0@,``0@)">
+            <summary>
+            两个变量交换值
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="a">值1</param>
+            <param name="b">值2</param>
+        </member>
+        <member name="M:NetBase.Utility.LimitValue(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            限制int数字在某个区间内
+            </summary>
+            <param name="num">目标数字</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <returns>限制范围值</returns>
+        </member>
+        <member name="M:NetBase.Utility.LimitValue(System.Double,System.Double,System.Double)">
+            <summary>
+            限制double数字在某个区间内
+            </summary>
+            <param name="num">目标数字</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <returns>限制范围值</returns>
+        </member>
+        <member name="M:NetBase.Utility.LimitValue(System.Int64,System.Int64,System.Int64)">
+            <summary>
+            限制long数字在某个区间内
+            </summary>
+            <param name="num">目标数字</param>
+            <param name="minValue">最小值</param>
+            <param name="maxValue">最大值</param>
+            <returns>限制范围值</returns>
+        </member>
+        <member name="M:NetBase.Utility.RandomInt(Newtonsoft.Json.Linq.JArray)">
+            <summary>
+            取json数组中前两个值转换成int类型后进行区间随机
+            </summary>
+            <param name="sectionArray">json数组</param>
+            <returns>随机值</returns>
+        </member>
+        <member name="M:NetBase.Utility.RandomLong(Newtonsoft.Json.Linq.JArray)">
+            <summary>
+            取json数组中前两个值转换成long类型后进行区间随机
+            </summary>
+            <param name="sectionArray">json数组</param>
+            <returns>随机值</returns>
+        </member>
+        <member name="M:NetBase.Utility.GetLanIPAddress">
+            <summary>
+            获取局域网ipv4地址
+            </summary>
+            <returns>局域网ipv4地址</returns>
+        </member>
+        <member name="M:NetBase.Utility.IsInSameLanEnvir(System.String,System.String)">
+            <summary>
+            判断两个ip地址是否可能在同一局域网
+            </summary>
+            <param name="ip1">ip</param>
+            <param name="ip2">ip</param>
+            <returns>是否可能在同一局域网</returns>
+        </member>
+        <member name="M:NetBase.Utility.Rc4Algorithm(System.Byte[],System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Rc4算法，用于协议层加解密
+            </summary>
+            <param name="key">秘钥</param>
+            <param name="buffer">数据</param>
+            <param name="index">索引</param>
+            <param name="length">长度</param>
+        </member>
+        <member name="M:NetBase.Utility.CA3Encode(System.String,System.Int32)">
+            <summary>
+            CA3加密算法：高效快速，自带校验功能
+            </summary>
+            <param name="originContent">原始内容</param>
+            <param name="randumKey">数字随机key</param>
+            <returns>密文字符串</returns>
+        </member>
+        <member name="M:NetBase.Utility.CA3Decode(System.String,System.Int32)">
+            <summary>
+            CA3解密算法：高效快速，自带校验功能
+            </summary>
+            <param name="encryptContent">密文</param>
+            <param name="randumKey">数字随机key</param>
+            <returns>原始内容</returns>
+        </member>
+        <member name="M:NetBase.Utility.BuildColumnAlignString(System.Collections.Generic.List{System.String[]},System.String)">
+            <summary>
+            根据多行内容构建对齐字符串，使用特定字符分隔
+            </summary>
+            <param name="sourceLines">多行内容</param>
+            <param name="split">分隔符</param>
+            <returns>对齐后的字符串</returns>
+        </member>
+        <member name="M:NetBase.Utility.GetMacAddress">
+            <summary>
+            获取机器码
+            </summary>
+            <returns>机器码</returns>
+        </member>
+        <member name="M:NetBase.Utility.SetPropertyValue(System.Object,System.String,System.String)">
+            <summary>
+            通过反射设置对象中指定属性名称对应的值
+            </summary>
+            <param name="entity">对象</param>
+            <param name="property">属性名称</param>
+            <param name="value">指定值</param>
+        </member>
+        <member name="M:NetBase.Utility.SetPropertyValue(System.Object,System.Reflection.PropertyInfo,System.String)">
+            <summary>
+            通过反射设置对象中指定属性对应的值
+            </summary>
+            <param name="entity">对象</param>
+            <param name="propertyInfo">属性信息</param>
+            <param name="value">指定值</param>
+        </member>
+        <member name="T:NetBase.DB">
+            <summary>
+            数据库操作静态类
+            </summary>
+        </member>
+        <member name="P:NetBase.DB.MainActor">
+            <summary>
+            单一线程执行sql语句，针对具有时序要求的场景使用
+            </summary>
+        </member>
+        <member name="P:NetBase.DB.WorkActor">
+            <summary>
+            多线程执行sql语句，针对没有时序要求的场景使用
+            </summary>
+        </member>
+        <member name="M:NetBase.DB.Start(System.String)">
+            <summary>
+            启动数据库
+            </summary>
+        </member>
+        <member name="M:NetBase.DB.Run">
+            <summary>
+            每帧回调
+            </summary>
+        </member>
+        <member name="M:NetBase.DB.Stop">
+            <summary>
+            停止，等待将mysql语句执行完毕
+            </summary>
+        </member>
+        <member name="T:NetBase.DBActor">
+            <summary>
+            数据库执行者
+            </summary>
+        </member>
+        <member name="M:NetBase.DBActor.ReturnSqlField(System.String,System.Object)">
+            <summary>
+            返回第一张表的第一行第一列字符串数据
+            </summary>
+            <param name="sql">sql语句</param>
+            <param name="param">绑定参数，既可以是Dictionary，也可以是匿名对象</param>
+            <returns>第一行第一列字符串</returns>
+        </member>
+        <member name="M:NetBase.DBActor.ReturnSqlFieldList(System.String,System.Object)">
+            <summary>
+            返回第一张表的第一列数据集合
+            </summary>
+            <param name="sql">sql语句</param>
+            <param name="param">绑定参数，既可以是Dictionary，也可以是匿名对象</param>
+            <returns>第一行第一列数据集合</returns>
+        </member>
+        <member name="M:NetBase.DBActor.ReturnSqlFirstDataRow(System.String,System.Object)">
+            <summary>
+            返回第一张表的第一行数据
+            </summary>
+            <param name="sql">sql语句</param>
+            <param name="param">绑定参数，既可以是Dictionary，也可以是匿名对象</param>
+            <returns>第一张表第一行</returns>
+        </member>
+        <member name="M:NetBase.DBActor.ReturnSqlFirstObject``1(System.String,System.Object)">
+            <summary>
+            将第一张表的第一行数据转换成指定类型对象，相关字段需要用DBField属性标识
+            </summary>
+            <typeparam name="T">指定类型</typeparam>
+            <param name="sql">sql语句</param>
+            <param name="param">绑定参数，既可以是Dictionary，也可以是匿名对象</param>
+            <returns>指定类型的对象</returns>
+        </member>
+        <member name="M:NetBase.DBActor.ReturnSqlDataRows(System.String,System.Object)">
+            <summary>
+            返回第一张表的所有行数据
+            </summary>
+            <param name="sql">sql语句</param>
+            <param name="param">绑定参数，既可以是Dictionary，也可以是匿名对象</param>
+            <returns>第一张表所有行</returns>
+        </member>
+        <member name="M:NetBase.DBActor.ReturnSqlObjects``1(System.String,System.Object)">
+            <summary>
+            将第一张表的所有行数据转换成指定类型对象的列表，相关字段需要用DBField属性标识
+            </summary>
+            <typeparam name="T">指定类型</typeparam>
+            <param name="sql">sql语句</param>
+            <param name="param">绑定参数，既可以是Dictionary，也可以是匿名对象</param>
+            <returns>指定对象列表</returns>
+        </member>
+        <member name="M:NetBase.DBActor.ReturnSqlDataTable(System.String,System.Object)">
+            <summary>
+            返回第一张表
+            </summary>
+            <param name="sql">sql语句</param>
+            <param name="param">绑定参数，既可以是Dictionary，也可以是匿名对象</param>
+            <returns>第一张表</returns>
+        </member>
+        <member name="M:NetBase.DBActor.FullDataSetWithParameter(System.String,System.Object)">
+            <summary>
+            返回数据集
+            </summary>
+            <param name="sql">sql语句</param>
+            <param name="param">绑定参数，既可以是Dictionary，也可以是匿名对象</param>
+            <returns>数据集</returns>
+        </member>
+        <member name="M:NetBase.DBActor.ExecuteSqlWithParameters(System.String,System.Object)">
+            <summary>
+            只可用于 update,insert,delete
+            </summary>
+            <param name="sql">sql语句</param>
+            <param name="param">绑定参数，既可以是Dictionary，也可以是匿名对象</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:NetBase.DBActor.ExecuteSqlWithParametersForAffect(System.String,System.Object)">
+            <summary>
+            只可用于 update,insert,delete，最终返回影响行数
+            </summary>
+            <param name="sql">sql语句</param>
+            <param name="param">绑定参数，既可以是Dictionary，也可以是匿名对象</param>
+            <returns>影响行数</returns>
+        </member>
+        <member name="T:NetBase.DBCacheBase">
+            <summary>
+            DB批量操作基类
+            </summary>
+        </member>
+        <member name="M:NetBase.DBCacheBase.#ctor(System.Int32,System.Boolean)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="intervalInSeconds">定时器时间，单位秒</param>
+            <param name="useMultipleThread">是否使用多线程执行sql语句</param>
+        </member>
+        <member name="M:NetBase.DBCacheBase.Dispose">
+            <summary>
+            释放
+            </summary>
+        </member>
+        <member name="M:NetBase.DBCacheBase.Flush">
+            <summary>
+            Flush数据
+            </summary>
+        </member>
+        <member name="T:NetBase.DBCacheInsertBatch">
+            <summary>
+            批量执行插入sql语句
+            </summary>
+        </member>
+        <member name="M:NetBase.DBCacheInsertBatch.#ctor(System.Int32,System.Boolean)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="intervalInSeconds">定时器时间，单位秒</param>
+            <param name="useMultipleThread">是否使用多线程执行sql语句</param>
+        </member>
+        <member name="M:NetBase.DBCacheInsertBatch.Init(System.String,System.String[])">
+            <summary>
+            初始化
+            </summary>
+            <param name="tableName">表名称</param>
+            <param name="fields">字段列表</param>
+        </member>
+        <member name="M:NetBase.DBCacheInsertBatch.Init(System.Func{System.String},System.String[])">
+            <summary>
+            初始化
+            </summary>
+            <param name="fnGetTableName">表名称代理函数</param>
+            <param name="fields">字段列表</param>
+        </member>
+        <member name="M:NetBase.DBCacheInsertBatch.AddRow(System.Object[])">
+            <summary>
+            添加数据行
+            </summary>
+            <param name="values">插入数据列表</param>
+        </member>
+        <member name="T:NetBase.DBCacheInsertUpdateBatch`1">
+            <summary>
+            批量插入更新
+            </summary>
+            <typeparam name="T">唯一Key类型</typeparam>
+        </member>
+        <member name="F:NetBase.DBCacheInsertUpdateBatch`1.FlushEvent">
+            <summary>
+            Flush事件，逻辑层可以设置监听搞一些事情
+            </summary>
+        </member>
+        <member name="M:NetBase.DBCacheInsertUpdateBatch`1.HasData">
+            <summary>
+            是否有数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:NetBase.DBCacheInsertUpdateBatch`1.DataRows">
+            <summary>
+            获取所有数据行
+            </summary>
+        </member>
+        <member name="M:NetBase.DBCacheInsertUpdateBatch`1.#ctor(System.Int32,System.Boolean)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="intervalInSeconds">定时器时间，单位秒</param>
+            <param name="useMultipleThread">是否使用多线程执行sql语句</param>
+        </member>
+        <member name="M:NetBase.DBCacheInsertUpdateBatch`1.Init(System.String,System.String,System.Action{System.Object[],System.Object[]},System.String[])">
+            <summary>
+            初始化
+            </summary>
+            <param name="tableName">表名称</param>
+            <param name="updateFields">更新串</param>
+            <param name="resolveHandler">冲突解决回调：(srcParams, dstParams)，最终以srcParams为准</param>
+            <param name="fields">字段列表</param>
+        </member>
+        <member name="M:NetBase.DBCacheInsertUpdateBatch`1.Init(System.Func{System.String},System.String,System.Action{System.Object[],System.Object[]},System.String[])">
+            <summary>
+            初始化
+            </summary>
+            <param name="fnGetTableName">表名称代理函数</param>
+            <param name="updateFields">更新串</param>
+            <param name="resolveHandler">冲突解决回调：(srcParams, dstParams)，最终以srcParams为准</param>
+            <param name="fields">字段列表</param>
+        </member>
+        <member name="M:NetBase.DBCacheInsertUpdateBatch`1.AddRow(`0,System.Object[])">
+            <summary>
+            添加插入数据
+            </summary>
+            <param name="key">唯一key</param>
+            <param name="values">插入数据列表</param>
+        </member>
+        <member name="P:NetBase.DBEntityMySql.ConnectionPool">
+            <summary>
+            数据库连接池
+            </summary>
+        </member>
+        <member name="M:NetBase.DBEntityMySql.#ctor">
+            <summary>
+            无参构造函数
+            </summary>
+        </member>
+        <member name="M:NetBase.DBEntityMySql.#ctor(NetBase.DBConnectionPool)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="pool">数据库连接池</param>
+        </member>
+        <member name="M:NetBase.DBEntityMySql.executeSqlWithParametersImpl(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            只可用于 update,insert,delete，最终返回影响行数
+            </summary>
+            <param name="sql">sql语句</param>
+            <param name="ps">参数列表</param>
+            <returns>-1代表执行失败 >=0代表影响行数</returns>
+        </member>
+        <member name="T:NetBase.DBExtensions">
+            <summary>
+            DB扩展类
+            </summary>
+        </member>
+        <member name="M:NetBase.DBExtensions.ToEntity``1(System.Data.DataRow)">
+            <summary>
+            DataRow转数据实体
+            </summary>
+            <typeparam name="T">模版类型</typeparam>
+            <param name="row">数据行</param>
+            <returns>实例</returns>
+        </member>
+        <member name="M:NetBase.DBExtensions.ToEntityList``1(System.Data.DataTable)">
+            <summary>
+            DataTable转数据实体列表
+            </summary>
+            <typeparam name="T">模版类型</typeparam>
+            <param name="dt">数据表</param>
+            <returns>实例列表</returns>
+        </member>
+        <member name="M:NetBase.DBExtensions.ToEntityList``1(System.Collections.Generic.IEnumerable{System.Data.DataRow})">
+            <summary>
+            IEnumerable DataRow转数据实体列表
+            </summary>
+            <typeparam name="T">模版类型</typeparam>
+            <param name="rows">数据列表</param>
+            <returns>实例列表</returns>
+        </member>
+        <member name="M:NetBase.DBExtensions.AddIfDiff``1(System.Collections.Generic.IDictionary{System.String,System.Object},System.String,``0,``0)">
+            <summary>
+            Dictionary string, object添加接口，当val1和val2值不同时，将key和val2对应关系添加到字典中
+            </summary>
+            <typeparam name="T">模版类型</typeparam>
+            <param name="d">字典对象</param>
+            <param name="key">键</param>
+            <param name="val1">值1</param>
+            <param name="val2">值2</param>
+        </member>
+        <member name="T:NetBase.DBFieldAttribute">
+            <summary>
+            自定义属性，用于DataRow反序列化对象
+            </summary>
+        </member>
+        <member name="P:NetBase.DBFieldAttribute.FieldName">
+            <summary>
+            映射的字段名
+            </summary>
+        </member>
+        <member name="P:NetBase.DBFieldAttribute.IsSerialized">
+            <summary>
+            是否映射，默认为true
+            </summary>
+        </member>
+        <member name="M:NetBase.DBFieldAttribute.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:NetBase.DBFieldAttribute.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="field_name">映射的字段名</param>
+        </member>
+        <member name="T:NetBase.FiniteState">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:NetBase.FiniteState.Name">
+            <summary>
+            状态名称
+            </summary>
+        </member>
+        <member name="P:NetBase.FiniteState.EnterCallback">
+            <summary>
+            状态进入回调
+            </summary>
+        </member>
+        <member name="P:NetBase.FiniteState.UpdateCallback">
+            <summary>
+            状态更新回调
+            </summary>
+        </member>
+        <member name="P:NetBase.FiniteState.ExitCallback">
+            <summary>
+            状态离开回调
+            </summary>
+        </member>
+        <member name="P:NetBase.FiniteState.Elapse">
+            <summary>
+            从状态进入开始计时的流逝时间，单位毫秒
+            </summary>
+        </member>
+        <member name="P:NetBase.FiniteState.Fsm">
+            <summary>
+            状态机
+            </summary>
+        </member>
+        <member name="M:NetBase.FiniteState.release">
+            <summary>
+            释放回调
+            </summary>
+        </member>
+        <member name="M:NetBase.FiniteState.onEnter">
+            <summary>
+            状态进入回调
+            </summary>
+        </member>
+        <member name="M:NetBase.FiniteState.onUpdate(System.Int32)">
+            <summary>
+            状态更新回调
+            </summary>
+            <param name="deltaTimeInMillionSeconds">流逝时间，单位毫秒</param>
+        </member>
+        <member name="M:NetBase.FiniteState.onExit">
+            <summary>
+            状态离开回调
+            </summary>
+        </member>
+        <member name="T:NetBase.FiniteStateKeeper">
+            <summary>
+            检测状态是否保持一段时间
+            </summary>
+        </member>
+        <member name="F:NetBase.FiniteStateKeeper.currentKeepTime_">
+            <summary>
+            当前已保持时间，单位毫秒
+            </summary>
+        </member>
+        <member name="P:NetBase.FiniteStateKeeper.DurationInMillionSeconds">
+            <summary>
+            状态保持时间，单位毫秒
+            </summary>
+        </member>
+        <member name="P:NetBase.FiniteStateKeeper.KeepDelegate">
+            <summary>
+            状态是否维持回调函数
+            </summary>
+        </member>
+        <member name="P:NetBase.FiniteStateKeeper.Callback">
+            <summary>
+            自定义回调
+            </summary>
+        </member>
+        <member name="M:NetBase.FiniteStateKeeper.Reset">
+            <summary>
+            重置当前已保持的状态时间
+            </summary>
+        </member>
+        <member name="M:NetBase.FiniteStateKeeper.IsKeepFinished(System.Int32)">
+            <summary>
+            状态保持时间是否已达成目标
+            </summary>
+            <param name="elapseInMillionSeconds">流逝时间，单位毫秒</param>
+            <returns>是否已达成目标</returns>
+        </member>
+        <member name="T:NetBase.FiniteStateMachine">
+            <summary>
+            有限状态机
+            </summary>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.GetCurrentState">
+            <summary>
+            获取当前状态
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.GetCurrentStateName">
+            <summary>
+            获取当前状态名称
+            </summary>
+            <returns>状态名称</returns>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.Initialize(NetBase.FiniteState)">
+            <summary>
+            初始化状态机
+            </summary>
+            <param name="initState">初始状态</param>
+            <returns>this</returns>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.ClearWithRelease">
+            <summary>
+            清空状态并释放
+            </summary>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.AddState(NetBase.FiniteState)">
+            <summary>
+            添加状态
+            </summary>
+            <param name="state">状态对象</param>
+            <returns>this</returns>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.AddTransition(NetBase.FiniteState,NetBase.FiniteState,System.Int32,System.Func{System.Boolean})">
+            <summary>
+            添加状态转换
+            </summary>
+            <param name="stateFrom">源状态</param>
+            <param name="stateTo">目标状态</param>
+            <param name="name">事件名称</param>
+            <param name="callback">状态过渡回调，该回调返回false则不允许切换状态</param>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.AddTimedTransition(NetBase.FiniteState,NetBase.FiniteState,System.Int32,System.Func{System.Boolean})">
+            <summary>
+            添加按固定时间的状态转换
+            </summary>
+            <param name="stateFrom">源状态</param>
+            <param name="stateTo">目标状态</param>
+            <param name="timeInMillionSeconds">固定时间，单位毫秒</param>
+            <param name="callback">状态过渡回调，该回调返回false则不允许切换状态</param>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.AddTimedTransition(NetBase.FiniteState,NetBase.FiniteState,System.Int32,System.Int32,System.Func{System.Boolean})">
+            <summary>
+            添加按随机时间的状态转换
+            </summary>
+            <param name="stateFrom">源状态</param>
+            <param name="stateTo">目标状态</param>
+            <param name="minIntervalMS">最小时间，单位毫秒</param>
+            <param name="maxIntervalMS">最大时间，单位毫秒</param>
+            <param name="callback">状态过渡回调，该回调返回false则不允许切换状态</param>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.UpdateTimedTransition(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            更新状态转换的时间间隔
+            </summary>
+            <param name="stateFromName">源状态</param>
+            <param name="stateToName">目标状态</param>
+            <param name="timeInMillionSeconds">时间间隔，单位毫秒</param>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.Trigger(System.Int32)">
+            <summary>
+            触发事件
+            </summary>
+            <param name="eventName">事件名称</param>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.AddWaitTime(System.Int32)">
+            <summary>
+            添加状态机等待时间
+            </summary>
+            <param name="waitTimeInMillionSeconds">等待时间，单位毫秒</param>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.ResetWaitTime">
+            <summary>
+            清除等待时间
+            </summary>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.RunMachine(System.Int32)">
+            <summary>
+            运行状态机，需要每帧回调（一般在定时器回调函数中执行）
+            </summary>
+            <param name="deltaTimeInMillionSeconds">流逝时间，单位毫秒</param>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.GetCurrentStateLeftTimeInMillionSeconds">
+            <summary>
+            获取当前状态剩余时间
+            </summary>
+            <returns>剩余时间，单位毫秒</returns>
+        </member>
+        <member name="M:NetBase.FiniteStateMachine.AddTransitionTimeForCurrentState(System.Int32)">
+            <summary>
+            动态增加状态转换的时间间隔
+            </summary>
+            <param name="timeInMillionSeconds">时间间隔，单位毫秒</param>
+        </member>
+        <member name="T:NetBase.BlockBuffer">
+            <summary>
+            缓冲区
+            </summary>
+        </member>
+        <member name="P:NetBase.BlockBuffer.Buffer">
+            <summary>
+            内存数组
+            </summary>
+        </member>
+        <member name="P:NetBase.BlockBuffer.Index">
+            <summary>
+            其实索引
+            </summary>
+        </member>
+        <member name="P:NetBase.BlockBuffer.Length">
+            <summary>
+            缓冲区长度
+            </summary>
+        </member>
+        <member name="M:NetBase.BlockBuffer.#ctor(System.Byte[],System.Int32,System.Int32,NetBase.BlockBufferMemory)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="buffer">内存数组</param>
+            <param name="index">起始索引</param>
+            <param name="length">缓冲区长度</param>
+            <param name="blockBufferMemory">缓冲区内存分配器</param>
+        </member>
+        <member name="M:NetBase.BlockBuffer.Dispose">
+            <summary>
+            释放
+            </summary>
+        </member>
+        <member name="T:NetBase.BlockBufferFactory">
+            <summary>
+            无限缓冲区分配工厂
+            </summary>
+        </member>
+        <member name="M:NetBase.BlockBufferFactory.#ctor(System.Int32,System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="blockSize">缓冲区大小</param>
+            <param name="blockStepLength">缓冲区增长步长</param>
+        </member>
+        <member name="M:NetBase.BlockBufferFactory.AllocBuffer">
+            <summary>
+            分配一个缓冲区
+            </summary>
+            <returns>缓冲区</returns>
+        </member>
+        <member name="T:NetBase.BlockBufferMemory">
+            <summary>
+            缓冲区内存分配器
+            </summary>
+        </member>
+        <member name="M:NetBase.BlockBufferMemory.#ctor(System.Int32,System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="blockSize">缓冲区大小</param>
+            <param name="totalBufferSize">总大小</param>
+        </member>
+        <member name="M:NetBase.BlockBufferMemory.AllocBuffer">
+            <summary>
+            分配一个可用缓冲区
+            </summary>
+            <returns>缓冲区</returns>
+        </member>
+        <member name="M:NetBase.BlockBufferMemory.FreeBuffer(System.Int32)">
+            <summary>
+            回收缓冲区
+            </summary>
+            <param name="index">缓冲区起始索引</param>
+        </member>
+        <member name="T:NetBase.SocketState">
+            <summary>
+            网络连接状态
+            </summary>
+        </member>
+        <member name="F:NetBase.SocketState.None">
+            <summary>
+            未连接
+            </summary>
+        </member>
+        <member name="F:NetBase.SocketState.Established">
+            <summary>
+            已建立连接
+            </summary>
+        </member>
+        <member name="F:NetBase.SocketState.Terminated">
+            <summary>
+            已断开连接
+            </summary>
+        </member>
+        <member name="T:NetBase.SocketDisconnectReason">
+            <summary>
+            套接字断开原因
+            </summary>
+        </member>
+        <member name="F:NetBase.SocketDisconnectReason.Unknown">
+            <summary>
+            未知断开原因
+            </summary>
+        </member>
+        <member name="F:NetBase.SocketDisconnectReason.ActiveDisconnect">
+            <summary>
+            逻辑层主动断开
+            </summary>
+        </member>
+        <member name="F:NetBase.SocketDisconnectReason.RemoteShutdown">
+            <summary>
+            另外一方主动Shutdown断开
+            </summary>
+        </member>
+        <member name="F:NetBase.SocketDisconnectReason.SystemError">
+            <summary>
+            由于套接字发生系统错误而断开
+            </summary>
+        </member>
+        <member name="F:NetBase.SocketDisconnectReason.SendOverflow">
+            <summary>
+            发送缓冲区溢出
+            </summary>
+        </member>
+        <member name="F:NetBase.SocketDisconnectReason.RecvOverflow">
+            <summary>
+            接收缓冲区溢出
+            </summary>
+        </member>
+        <member name="F:NetBase.SocketDisconnectReason.ParsePacket">
+            <summary>
+            消息解包时发生错误
+            </summary>
+        </member>
+        <member name="T:NetBase.NetEventType">
+            <summary>
+            内部网络事件类型
+            </summary>
+        </member>
+        <member name="F:NetBase.NetEventType.Data">
+            <summary>
+            接收到数据
+            </summary>
+        </member>
+        <member name="F:NetBase.NetEventType.Error">
+            <summary>
+            网络发生错误
+            </summary>
+        </member>
+        <member name="F:NetBase.NetEventType.Terminated">
+            <summary>
+            网络中断
+            </summary>
+        </member>
+        <member name="T:NetBase.IServer">
+            <summary>
+            主动连接远程服务而建立的网络会话基类
+            </summary>
+        </member>
+        <member name="M:NetBase.IServer.Connect(System.String,System.Int32)">
+            <summary>
+            主动发起tcp连接
+            </summary>
+            <param name="ipAddress">ip地址</param>
+            <param name="port">端口号</param>
+        </member>
+        <member name="M:NetBase.IServer.Disconnect">
+            <summary>
+            主动断开连接
+            </summary>
+        </member>
+        <member name="M:NetBase.IServer.Run">
+            <summary>
+            每帧回调函数
+            </summary>
+        </member>
+        <member name="M:NetBase.IServer.OnConnectError">
+            <summary>
+            建立连接出错回调
+            </summary>
+        </member>
+        <member name="M:NetBase.IServer.OnEstablish">
+            <summary>
+            连接建立成功回调
+            </summary>
+        </member>
+        <member name="M:NetBase.IServer.ParsePacket(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            解包函数。目前的实现是简单地根据前4字节表示包体长度来解包，如要修改请重载该函数。
+            </summary>
+            <param name="buffer">缓冲区</param>
+            <param name="offset">偏移</param>
+            <param name="length">可用数据长度</param>
+            <returns>
+            1. 大于0表示解包成功
+            2. 等于0表示需要继续等待接收数据
+            3. 小于0表示解包数据异常后续会断开连接
+            </returns>
+        </member>
+        <member name="M:NetBase.IServer.OnRecvRaw(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            接收数据回调
+            </summary>
+            <param name="buffer">缓冲区</param>
+            <param name="offset">偏移</param>
+            <param name="length">可用数据长度</param>
+        </member>
+        <member name="M:NetBase.IServer.OnError(NetBase.SocketDisconnectReason,System.String)">
+            <summary>
+            网络错误通知，如果是主动断开连接则不会收到该通知
+            </summary>
+            <param name="reason">错误原因</param>
+            <param name="message">错误描述</param>
+        </member>
+        <member name="M:NetBase.IServer.Send(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送数据
+            </summary>
+            <param name="buffer">数据缓冲区</param>
+            <param name="index">起始索引</param>
+            <param name="length">长度</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:NetBase.IServer.Send(System.IO.MemoryStream)">
+            <summary>
+            发送数据
+            </summary>
+            <param name="ms">内存数据流</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="T:NetBase.ISession">
+            <summary>
+            监听本地端口而建立的网络会话基类
+            </summary>
+        </member>
+        <member name="P:NetBase.ISession.DisconnectReason">
+            <summary>
+            连接断开原因枚举
+            </summary>
+        </member>
+        <member name="P:NetBase.ISession.DisconnectMessage">
+            <summary>
+            连接断开原因描述
+            </summary>
+        </member>
+        <member name="P:NetBase.ISession.RemoteAddress">
+            <summary>
+            远端连接地址，格式：xx.xx.xx.xx:xx
+            </summary>
+        </member>
+        <member name="P:NetBase.ISession.RemoteIp">
+            <summary>
+            远端连接的IP地址
+            </summary>
+        </member>
+        <member name="P:NetBase.ISession.SocketState">
+            <summary>
+            连接状态
+            </summary>
+        </member>
+        <member name="M:NetBase.ISession.OnEstablish">
+            <summary>
+            连接建立成功回调
+            </summary>
+        </member>
+        <member name="M:NetBase.ISession.UseDefaultParsePacket">
+            <summary>
+            是否使用默认的解包逻辑。
+            默认解包逻辑是前4字节代表数据包总长度。
+            </summary>
+            <returns>是否使用默认解包逻辑</returns>
+        </member>
+        <member name="M:NetBase.ISession.ParsePacket(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            解包函数。目前的实现是简单地根据前4字节表示包体长度来解包，如要修改请重载该函数。
+            </summary>
+            <param name="buffer">缓冲区</param>
+            <param name="offset">偏移</param>
+            <param name="length">可用数据长度</param>
+            <returns>
+            大于0表示解包成功
+            等于0表示需要继续等待接收数据
+            小于0表示解包数据异常后续会断开连接
+            </returns>
+        </member>
+        <member name="M:NetBase.ISession.OnRecvRaw(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            接收原始数据回调
+            </summary>
+            <param name="buffer">缓冲区</param>
+            <param name="offset">偏移</param>
+            <param name="length">可用数据长度</param>
+        </member>
+        <member name="M:NetBase.ISession.OnRecv(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            接收逻辑层数据回调
+            </summary>
+            <param name="buffer">缓冲区</param>
+            <param name="offset">偏移</param>
+            <param name="length">可用数据长度</param>
+        </member>
+        <member name="M:NetBase.ISession.OnError(NetBase.SocketDisconnectReason,System.String)">
+            <summary>
+            网络错误通知，如果是主动断开连接则不会收到该通知
+            </summary>
+            <param name="reason">错误原因</param>
+            <param name="message">错误描述</param>
+        </member>
+        <member name="M:NetBase.ISession.OnTerminate">
+            <summary>
+            session断开最终回调
+            </summary>
+        </member>
+        <member name="M:NetBase.ISession.Send(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            发送数据
+            </summary>
+            <param name="buffer">数据缓冲区</param>
+            <param name="index">起始索引</param>
+            <param name="length">长度</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:NetBase.ISession.Send(System.IO.MemoryStream)">
+            <summary>
+            发送数据
+            </summary>
+            <param name="ms">内存数据流</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:NetBase.ISession.Disconnect">
+            <summary>
+            主动断开连接
+            </summary>
+        </member>
+        <member name="T:NetBase.ISessionWebSocket">
+            <summary>
+            监听本地端口而建立的基于WebSocket通信的网络会话基类
+            </summary>
+        </member>
+        <member name="M:NetBase.ISessionWebSocket.UseDefaultParsePacket">
+            <summary>
+            是否使用默认的解包逻辑。
+            默认解包逻辑是前4字节代表数据包总长度。
+            </summary>
+            <returns>是否使用默认解包逻辑</returns>
+        </member>
+        <member name="M:NetBase.ISessionWebSocket.ParsePacket(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            根据WebSocket协议规则实现的解包逻辑。
+            </summary>
+            <param name="buffer">缓冲区</param>
+            <param name="offset">偏移</param>
+            <param name="length">可用数据长度</param>
+            <returns>
+            大于0表示解包成功
+            等于0表示需要继续等待接收数据
+            小于0表示解包数据异常后续会断开连接
+            </returns>
+        </member>
+        <member name="M:NetBase.ISessionWebSocket.OnRecvRaw(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            接收原始数据回调
+            </summary>
+            <param name="buffer">缓冲区</param>
+            <param name="offset">偏移</param>
+            <param name="length">可用数据长度</param>
+        </member>
+        <member name="M:NetBase.ISessionWebSocket.Send(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            基于WebSocket协议发送数据
+            </summary>
+            <param name="buffer">数据缓冲区</param>
+            <param name="index">起始索引</param>
+            <param name="length">长度</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="T:NetBase.LoopBuffer">
+            <summary>
+            网络循环缓冲区
+            保证线程安全
+            支持自动扩容
+            </summary>
+        </member>
+        <member name="M:NetBase.LoopBuffer.#ctor(NetBase.BlockBuffer,System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="blockBuffer">块缓冲区对象</param>
+            <param name="maxSize">允许的最大缓冲区大小，0代表无上限</param>
+        </member>
+        <member name="M:NetBase.LoopBuffer.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            写入数据
+            </summary>
+            <param name="data">写入的数据缓冲区</param>
+            <param name="index">写入缓冲区的起始索引</param>
+            <param name="writeLen">写入长度</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:NetBase.LoopBuffer.Read(System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            读取数据
+            </summary>
+            <param name="data">接收数据的缓冲区</param>
+            <param name="index">接收缓冲区的起始索引</param>
+            <param name="readLen">读取长度</param>
+            <param name="removeData">是否移除原始数据</param>
+            <returns>是否成功</returns>
+        </member>
+        <member name="M:NetBase.LoopBuffer.DiscardFront(System.Int32)">
+            <summary>
+            忽略从起始位置开始指定长度的数据
+            </summary>
+            <param name="len">指定长度</param>
+        </member>
+        <member name="M:NetBase.LoopBuffer.Dispose">
+            <summary>
+            释放对象
+            </summary>
+        </member>
+        <member name="T:NetBase.NetComponent">
+            <summary>
+            网络组件
+            </summary>
+        </member>
+        <member name="P:NetBase.NetComponent.ConnectionCount">
+            <summary>
+            当前已建立的连接数量
+            </summary>
+        </member>
+        <member name="M:NetBase.NetComponent.#ctor(NetBase.NetConfig)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="config">配置</param>
+        </member>
+        <member name="M:NetBase.NetComponent.Listen(System.Int32,System.Func{NetBase.ISession})">
+            <summary>
+            监听端口
+            </summary>
+            <param name="port">监听的端口号</param>
+            <param name="sessionCreater">session对象生成器，该回调只会在主线程调用</param>
+        </member>
+        <member name="M:NetBase.NetComponent.Run">
+            <summary>
+            主线程每帧回调函数
+            </summary>
+        </member>
+        <member name="T:NetBase.NetConfig">
+            <summary>
+            网络配置
+            </summary>
+        </member>
+        <member name="P:NetBase.NetConfig.SendBufferSize">
+            <summary>
+            发送缓冲区大小
+            </summary>
+        </member>
+        <member name="P:NetBase.NetConfig.MaxSendBufferSize">
+            <summary>
+            最大发送缓冲区大小，0代表无最大限制
+            </summary>
+        </member>
+        <member name="P:NetBase.NetConfig.RecvBufferSize">
+            <summary>
+            接收缓冲区大小
+            </summary>
+        </member>
+        <member name="P:NetBase.NetConfig.MaxRecvBufferSize">
+            <summary>
+            最大接收缓冲区大小，0代表无最大限制
+            </summary>
+        </member>
+        <member name="P:NetBase.NetConfig.BlockBufferStepLength">
+            <summary>
+            块缓冲区连续分配步长
+            </summary>
+        </member>
+        <member name="P:NetBase.NetConfig.MaxDesignSocketAmount">
+            <summary>
+            设计上允许的最大Socket连接数量
+            </summary>
+        </member>
+        <member name="F:NetBase.NetConfig.CommonClient">
+            <summary>
+            通用面向客户端的网络配置
+            </summary>
+        </member>
+        <member name="F:NetBase.NetConfig.CommonInnerServer">
+            <summary>
+            通用面向服务端内部的网络配置
+            </summary>
+        </member>
+        <member name="T:NetBase.ProtobufSequence">
+            <summary>
+            Protobuf协议Req和Ack消息序列统计类
+            </summary>
+        </member>
+        <member name="E:NetBase.ProtobufSequence.TriggerNextPacketEvent">
+            <summary>
+            触发下一个数据包事件
+            如果设置了某个Req阻塞触发，则需要监听该事件
+            </summary>
+        </member>
+        <member name="M:NetBase.ProtobufSequence.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:NetBase.ProtobufSequence.Dispose">
+            <summary>
+            释放对象
+            </summary>
+        </member>
+        <member name="M:NetBase.ProtobufSequence.AddBlockedRequestProtocol(System.String)">
+            <summary>
+            添加需要阻塞触发的协议名称，只能针对Req请求进行添加
+            </summary>
+            <param name="protoName">完整协议名称</param>
+        </member>
+        <member name="M:NetBase.ProtobufSequence.OnSend(System.String)">
+            <summary>
+            当发送协议时由逻辑层主动回调
+            </summary>
+            <param name="protoName">完整协议名称</param>
+        </member>
+        <member name="M:NetBase.ProtobufSequence.OnRecv(System.String,System.Object)">
+            <summary>
+            当接收到协议时由逻辑层主动回调
+            需根据返回值决定是否需要触发逻辑层监听
+            </summary>
+            <param name="protoName">完整的协议名称</param>
+            <param name="protoData">协议数据对象</param>
+            <returns>true表示可以触发到逻辑层 false表示不可以触发到逻辑层</returns>
+        </member>
+        <member name="M:NetBase.ProtobufSequence.IsComplete">
+            <summary>
+            发送和接收序列是否都一一对应处理完成
+            </summary>
+            <returns>是否处理完成</returns>
+        </member>
+        <member name="M:NetBase.ProtobufSequence.ToString">
+            <summary>
+            打印当前正在等待情况
+            </summary>
+            <returns>等待远程Ack答复和等待本地Req处理汇总</returns>
+        </member>
+        <member name="T:NetBase.ProtobufTranslater">
+            <summary>
+            protobuf协议翻译辅助类
+            </summary>
+        </member>
+        <member name="P:NetBase.ProtobufTranslater.HasWaitResponse">
+            <summary>
+            是否存在正在等待的Ack回应
+            </summary>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.RegisterProtobufType``1">
+            <summary>
+            注册Protobuf类型
+            </summary>
+            <typeparam name="T">协议类型</typeparam>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.RegisterNotifyHandler``1(System.Action{``0})">
+            <summary>
+            注册Ntf通知处理函数
+            </summary>
+            <typeparam name="T">Ntf协议类型</typeparam>
+            <param name="handler">Ntf处理回调函数</param>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.RegisterNotifyHandlerByName(System.String,System.Action{Google.Protobuf.IMessage})">
+            <summary>
+            注册Ntf通知处理函数
+            </summary>
+            <param name="name">协议名称</param>
+            <param name="handler">Ntf处理回调函数</param>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.RegisterResponseHandler``1(System.Action{``0})">
+            <summary>
+            注册Ack回应处理函数，Ack回应和Req一一对应
+            </summary>
+            <typeparam name="T">Ack协议类型</typeparam>
+            <param name="handler">Ack处理回调函数</param>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.RegisterResponseHandlerByName(System.String,System.Action{Google.Protobuf.IMessage})">
+            <summary>
+            注册Ack回应处理函数，Ack回应和Req一一对应
+            </summary>
+            <param name="name">协议名称</param>
+            <param name="handler">Ack处理回调函数</param>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.HasRegisterHandler(System.String)">
+            <summary>
+            是否注册了处理回调函数
+            </summary>
+            <param name="name">协议名称</param>
+            <returns>是否注册</returns>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.DispatchAllResponseWithNull">
+            <summary>
+            使用null回复所有正在等待接收的req请求
+            </summary>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.DispatchMessage(Google.Protobuf.IMessage)">
+            <summary>
+            根据消息对象和已注册的处理函数来触发回调
+            </summary>
+            <param name="message">消息对象</param>
+            <returns>该消息是否已被处理</returns>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.DispatchMessage(System.String,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            根据解析后的数据和已注册的处理函数来触发回调
+            </summary>
+            <param name="protoName">协议名称</param>
+            <param name="buffer">接收数据缓冲区</param>
+            <param name="index">起始索引</param>
+            <param name="length">数据长度</param>
+            <returns>该消息是否已被处理</returns>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.ParseMessage(System.String,Google.Protobuf.ByteString)">
+            <summary>
+            协议数据转换成协议对象
+            </summary>
+            <param name="protoName">协议名称</param>
+            <param name="bs">数据缓冲区</param>
+            <returns>协议对象</returns>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.ParseMessage(System.String,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            协议数据转换成协议对象
+            </summary>
+            <param name="protoName">协议名称</param>
+            <param name="buffer">数据缓冲区</param>
+            <param name="index">起始索引</param>
+            <param name="length">数据长度</param>
+            <returns>协议对象</returns>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.BuildMessage(Google.Protobuf.IMessage,System.Boolean)">
+            <summary>
+            构建协议发送缓冲区
+            格式：[4字节协议长度] + 0结尾协议名称字符串 + 协议二进制数据
+            </summary>
+            <param name="message">协议对象</param>
+            <param name="withLength">是否在最前面填充4字节长度</param>
+            <returns>待发送的内存缓冲区</returns>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.BuildMessage(System.String,Google.Protobuf.ByteString,System.Boolean)">
+            <summary>
+            构建协议发送缓冲区
+            格式：[4字节协议长度] + 0结尾协议名称字符串 + 协议二进制数据
+            </summary>
+            <param name="protoName">完整协议名称</param>
+            <param name="bs">协议内容</param>
+            <param name="withLength">是否在最前面填充4字节长度</param>
+            <returns>待发送的内存缓冲区</returns>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.BuildAckWithErrcode``1(System.Int32,System.Boolean)">
+            <summary>
+            根据错误码构建Ack协议缓冲区
+            </summary>
+            <typeparam name="T">Ack协议类型</typeparam>
+            <param name="errcode">错误码</param>
+            <param name="withLength">是否在最前面填充4字节长度</param>
+            <returns>待发送的内存缓冲区</returns>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.BuildAckWithErrcode(System.String,System.Int32,System.Boolean)">
+            <summary>
+            根据错误码构建Ack协议缓冲区
+            </summary>
+            <param name="protoName">协议名称</param>
+            <param name="errcode">错误码</param>
+            <param name="withLength">是否在最前面填充4字节长度</param>
+            <returns>待发送的内存缓冲区</returns>
+        </member>
+        <member name="M:NetBase.ProtobufTranslater.ParsePBName(System.Byte[],System.Int32@,System.Int32@,System.String@)">
+            <summary>
+            根据接收到的数据解析出协议名称，并维护好新的起始索引和数据长度
+            </summary>
+            <param name="buffer">数据缓冲区</param>
+            <param name="index">起始索引</param>
+            <param name="length">数据长度</param>
+            <param name="name">协议名称</param>
+            <returns>是否解析成功</returns>
+        </member>
+        <member name="T:NetBase.ConsoleExtension">
+            <summary>
+            控制台日志扩展类
+            </summary>
+        </member>
+        <member name="E:NetBase.ConsoleExtension.AddLogItemEvent">
+            <summary>
+            增加控制台日志事件通知
+            </summary>
+        </member>
+        <member name="M:NetBase.ConsoleExtension.QueryConsoleLogItems">
+            <summary>
+            查询控制台日志内容
+            </summary>
+            <returns>控制台日志集合</returns>
+        </member>
+        <member name="M:NetBase.ConsoleExtension.BuildContent(System.String,System.String)">
+            <summary>
+            构建日志内容
+            </summary>
+            <param name="tag">自定义标签</param>
+            <param name="message">内容</param>
+            <returns>带时间和自定义标签的日志内容</returns>
+        </member>
+        <member name="M:NetBase.ConsoleExtension.Write(NetBase.LogLevel,System.String,System.String)">
+            <summary>
+            输出内容到控制台
+            </summary>
+            <param name="level">日志级别</param>
+            <param name="tag">自定义标签</param>
+            <param name="message">内容</param>
+        </member>
+        <member name="M:NetBase.ConsoleExtension.Write(NetBase.LogLevel,System.String)">
+            <summary>
+            输出内容到控制台
+            </summary>
+            <param name="level">日志级别</param>
+            <param name="content">内容</param>
+        </member>
+        <member name="T:NetBase.ConsoleLogItem">
+            <summary>
+            控制台日志条目
+            </summary>
+        </member>
+        <member name="P:NetBase.ConsoleLogItem.Level">
+            <summary>
+            日志级别
+            </summary>
+        </member>
+        <member name="P:NetBase.ConsoleLogItem.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="T:NetBase.ILogWriter">
+            <summary>
+            抽象日志写入类
+            </summary>
+        </member>
+        <member name="M:NetBase.ILogWriter.Write(System.String,System.String)">
+            <summary>
+            写入日志内容
+            </summary>
+            <param name="path">路径</param>
+            <param name="content">日志内容</param>
+        </member>
+        <member name="M:NetBase.ILogWriter.Flush">
+            <summary>
+            刷入缓存
+            </summary>
+        </member>
+        <member name="T:NetBase.LocalLogWriter">
+            <summary>
+            本地文件日志写入类
+            </summary>
+        </member>
+        <member name="M:NetBase.LocalLogWriter.#ctor(System.String,System.Int32)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="relativeOrFullPath">相对目录或绝对目录</param>
+            <param name="logFileMaxSaveDays">日志文件最大存储天数，若该值小于或等于0代表永久保存不自动删除</param>
+        </member>
+        <member name="M:NetBase.LocalLogWriter.releaseAllFiles">
+            <summary>
+            释放所有日志文件句柄
+            </summary>
+        </member>
+        <member name="M:NetBase.LocalLogWriter.checkLogFileExpireAndRemove">
+            <summary>
+            检查清理过期的日志文件
+            </summary>
+        </member>
+        <member name="M:NetBase.LocalLogWriter.Dispose">
+            <summary>
+            释放资源
+            </summary>
+        </member>
+        <member name="M:NetBase.LocalLogWriter.Write(System.String,System.String)">
+            <summary>
+            写入日志内容
+            </summary>
+            <param name="path">路径</param>
+            <param name="content">日志内容</param>
+        </member>
+        <member name="M:NetBase.LocalLogWriter.Flush">
+            <summary>
+            刷入缓存
+            </summary>
+        </member>
+        <member name="T:NetBase.Log">
+            <summary>
+            日志输出，输出到控制台和本地文本文件
+            关于路径path的说明：
+            1.可以是目录 a\b\ => a\b\日期.log
+            2.可以是文件 a\b => a\b.log  a\b.log => a\b.log
+            </summary>
+        </member>
+        <member name="P:NetBase.Log.DefaultPath">
+            <summary>
+            默认输出路径
+            </summary>
+        </member>
+        <member name="P:NetBase.Log.LogWriter">
+            <summary>
+            持久化日志写入对象
+            </summary>
+        </member>
+        <member name="M:NetBase.Log.SetLogLevel(NetBase.LogLevel[])">
+            <summary>
+            设置控制台输出的日志级别
+            </summary>
+            <param name="consoleLevels">允许输出到控制台的日志级别</param>
+        </member>
+        <member name="M:NetBase.Log.Stop">
+            <summary>
+            停止
+            </summary>
+        </member>
+        <member name="M:NetBase.Log.Debug(System.String)">
+            <summary>
+            打印调试日志
+            </summary>
+            <param name="message">内容</param>
+        </member>
+        <member name="M:NetBase.Log.Debug(System.String,System.String)">
+            <summary>
+            打印调试日志
+            </summary>
+            <param name="path">路径</param>
+            <param name="message">内容</param>
+        </member>
+        <member name="M:NetBase.Log.Info(System.String)">
+            <summary>
+            打印信息日志
+            </summary>
+            <param name="message">内容</param>
+        </member>
+        <member name="M:NetBase.Log.Info(System.String,System.String)">
+            <summary>
+            打印信息日志
+            </summary>
+            <param name="path">路径</param>
+            <param name="message">内容</param>
+        </member>
+        <member name="M:NetBase.Log.Warn(System.String)">
+            <summary>
+            打印警告日志
+            </summary>
+            <param name="message">内容</param>
+        </member>
+        <member name="M:NetBase.Log.Warn(System.String,System.String)">
+            <summary>
+            打印警告日志
+            </summary>
+            <param name="path">路径</param>
+            <param name="message">内容</param>
+        </member>
+        <member name="M:NetBase.Log.Error(System.String)">
+            <summary>
+            打印错误日志
+            </summary>
+            <param name="message">内容</param>
+        </member>
+        <member name="M:NetBase.Log.Error(System.String,System.String)">
+            <summary>
+            打印错误日志
+            </summary>
+            <param name="path">路径</param>
+            <param name="message">内容</param>
+        </member>
+        <member name="M:NetBase.Log.WriteCommand(System.String)">
+            <summary>
+            执行GM命令专用的日志输出函数
+            </summary>
+            <param name="message">内容</param>
+        </member>
+        <member name="M:NetBase.Log.Write(NetBase.LogLevel,System.String,System.String,System.String)">
+            <summary>
+            通用日志写入函数
+            </summary>
+            <param name="level">日志级别</param>
+            <param name="tag">标签名称</param>
+            <param name="path">日志文件输出路径</param>
+            <param name="message">日志内容</param>
+        </member>
+        <member name="M:NetBase.Log.WriteRaw(NetBase.LogLevel,System.String,System.String)">
+            <summary>
+            原始日志写入函数
+            </summary>
+            <param name="level">日志级别</param>
+            <param name="path">日志文件输出路径</param>
+            <param name="rawContent">日志内容</param>
+        </member>
+        <member name="M:NetBase.Log.Flush">
+            <summary>
+            刷入缓存
+            </summary>
+        </member>
+        <member name="T:NetBase.Logger">
+            <summary>
+            自定义日志写入类
+            </summary>
+        </member>
+        <member name="M:NetBase.Logger.Create(System.String,System.String,System.String)">
+            <summary>
+            创建子游戏通用的Logger对象
+            </summary>
+            <param name="gameName">游戏名称</param>
+            <param name="roomName">房间名称</param>
+            <param name="deskName">桌子名称</param>
+            <returns>Logger对象</returns>
+        </member>
+        <member name="M:NetBase.Logger.#ctor(System.Func{System.String})">
+            <summary>
+            构造函数
+            </summary>
+            <param name="pathGenerater">路径生成器</param>
+        </member>
+        <member name="M:NetBase.Logger.Debug(System.String)">
+            <summary>
+            打印调试日志
+            </summary>
+            <param name="message">内容</param>
+        </member>
+        <member name="M:NetBase.Logger.Info(System.String)">
+            <summary>
+            打印信息日志
+            </summary>
+            <param name="message">内容</param>
+        </member>
+        <member name="M:NetBase.Logger.Warn(System.String)">
+            <summary>
+            打印警告日志
+            </summary>
+            <param name="message">内容</param>
+        </member>
+        <member name="M:NetBase.Logger.Error(System.String)">
+            <summary>
+            打印错误日志
+            </summary>
+            <param name="message">内容</param>
+        </member>
+        <member name="M:NetBase.Logger.Write(NetBase.LogLevel,System.String,System.String)">
+            <summary>
+            通用日志写入函数
+            </summary>
+            <param name="level">日志级别</param>
+            <param name="tag">标签名称</param>
+            <param name="message">日志内容</param>
+        </member>
+        <member name="T:NetBase.LogLevel">
+            <summary>
+            日志级别
+            </summary>
+        </member>
+        <member name="F:NetBase.LogLevel.None">
+            <summary>
+            使用该日志级别一定会输出到控制台
+            </summary>
+        </member>
+        <member name="F:NetBase.LogLevel.Debug">
+            <summary>
+            调试，白色
+            </summary>
+        </member>
+        <member name="F:NetBase.LogLevel.Info">
+            <summary>
+            信息，绿色
+            </summary>
+        </member>
+        <member name="F:NetBase.LogLevel.Warn">
+            <summary>
+            警告，黄色
+            </summary>
+        </member>
+        <member name="F:NetBase.LogLevel.Error">
+            <summary>
+            错误，红色
+            </summary>
+        </member>
+        <member name="F:NetBase.LogLevel.WarnError">
+            <summary>
+            只有警告和错误
+            </summary>
+        </member>
+        <member name="F:NetBase.LogLevel.All">
+            <summary>
+            全部
+            </summary>
+        </member>
+        <member name="T:NetBase.SensitiveWordWrapper">
+            <summary>
+            敏感词包装类
+            </summary>
+        </member>
+        <member name="M:NetBase.SensitiveWordWrapper.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:NetBase.SensitiveWordWrapper.Dispose">
+            <summary>
+            释放
+            </summary>
+        </member>
+        <member name="M:NetBase.SensitiveWordWrapper.Clear">
+            <summary>
+            清空
+            </summary>
+        </member>
+        <member name="M:NetBase.SensitiveWordWrapper.AddWords(System.String)">
+            <summary>
+            添加敏感词
+            </summary>
+            <param name="str">敏感词</param>
+        </member>
+        <member name="M:NetBase.SensitiveWordWrapper.HasSensitiveWords(System.String)">
+            <summary>
+            检测源字符串是否包含敏感词
+            </summary>
+            <param name="source">元字符串</param>
+            <returns>是否包含敏感词</returns>
+        </member>
+        <member name="M:NetBase.SensitiveWordWrapper.ReplaceSensitiveWords(System.String,System.Int32@)">
+            <summary>
+            将源字符串包含敏感词的地方使用*替换
+            </summary>
+            <param name="source">源字符串</param>
+            <param name="sensitiveWordsCount">被替换的字符个数</param>
+            <returns>替换后新的字符串</returns>
+        </member>
+        <member name="T:NetBase.TableSyncGroup">
+            <summary>
+            配置表同步分组设置
+            </summary>
+        </member>
+        <member name="M:NetBase.TableSyncGroup.PerformSyncOnce">
+            <summary>
+            执行一次同步
+            </summary>
+        </member>
+        <member name="T:NetBase.TableSyncManager">
+            <summary>
+            配置表同步管理器
+            </summary>
+        </member>
+        <member name="P:NetBase.TableSyncManager.TableContentMap">
+            <summary>
+            原始配置表文件内容，文件名=>文件内容
+            </summary>
+        </member>
+        <member name="E:NetBase.TableSyncManager.SyncCompleteEvent">
+            <summary>
+            同步完成事件，参数代表本次同步变动的文件名称（不含扩展名）集合
+            </summary>
+        </member>
+        <member name="M:NetBase.TableSyncManager.Init(System.String,System.String,System.Collections.Generic.List{System.Object})">
+            <summary>
+            初始化
+            </summary>
+            <param name="ossUrl">配置文件下载地址</param>
+            <param name="groupName">分组名称</param>
+            <param name="typeList">object可以是string类型（文件名不含扩展名），也可以是具体的Type类型（工具自动生成的代码类）</param>
+        </member>
+        <member name="M:NetBase.TableSyncManager.PerformSyncOnce(System.String)">
+            <summary>
+            执行一次同步
+            </summary>
+            <param name="groupName">分组名称</param>
+        </member>
+        <member name="M:NetBase.TableSyncManager.LoadJsonFromLocalFile(System.Type,System.String)">
+            <summary>
+            加载本地Json配置文件到TXxxxxxxHelper类中
+            </summary>
+            <param name="type">TXxxxxxxHelper类型</param>
+            <param name="filePath">json配置文件完整路径</param>
+        </member>
+        <member name="T:NetBase.TimeHelper">
+            <summary>
+            时间辅助类
+            </summary>
+        </member>
+        <member name="F:NetBase.TimeHelper.localRelativeTime_">
+            <summary>
+            本地时间：1970-01-01 00:00:00
+            </summary>
+        </member>
+        <member name="F:NetBase.TimeHelper.SECOND_TICKS">
+            <summary>
+            每秒Ticks
+            </summary>
+        </member>
+        <member name="F:NetBase.TimeHelper.MS_TICKS">
+            <summary>
+            每毫秒Ticks
+            </summary>
+        </member>
+        <member name="M:NetBase.TimeHelper.NowMS">
+            <summary>
+            当前时间戳（毫秒）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.NowSeconds">
+            <summary>
+            当前时间戳（秒）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.ToTimestamp(System.DateTime)">
+            <summary>
+            时间对象转换为时间戳（秒）
+            </summary>
+            <param name="time">时间对象</param>
+            <returns>时间戳</returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.ToTimestamp(System.String)">
+            <summary>
+            时间字符串转换为时间戳（秒）
+            </summary>
+            <param name="timestr">时间字符串</param>
+            <returns>时间戳</returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.FromTimestamp(System.UInt32)">
+            <summary>
+            秒时间戳转换成时间对象
+            </summary>
+            <param name="timestamp">时间戳（秒）</param>
+            <returns>本地时间对象</returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.ToRelativeDays(System.DateTime)">
+            <summary>
+            时间对象转换为从1970-01-01开始（以本地时间每日零点计算）所经历的天数
+            </summary>
+            <param name="time">时间对象</param>
+            <returns>所经历天数</returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.FromRelativeDays(System.Int32)">
+            <summary>
+            根据自1970-01-01 00:00:00（本地时间）所经历的天数转换成时间对象
+            </summary>
+            <param name="relativeDays">相对天数</param>
+            <returns>时间对象</returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.TicksToMS(System.Int64)">
+            <summary>
+            时间对象转换为时间戳（毫秒）
+            </summary>
+            <param name="ticks"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.TicksToSeconds(System.Int64)">
+            <summary>
+            ticks转换为秒
+            </summary>
+            <param name="ticks">ticks单位百纳秒</param>
+            <returns>秒</returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.GetTodayStartTime">
+            <summary>
+            获取今天零点时间
+            </summary>
+            <returns>今天零点时间</returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.GetWeekStartTime">
+            <summary>
+            获取本周一零点时间
+            </summary>
+            <returns>本周一零点时间</returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.GetMonthStartTime">
+            <summary>
+            获取本月1号零点时间
+            </summary>
+            <returns>本月1号零点时间</returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.GetTickCount">
+            <summary>
+            获取一个计时，单位毫秒
+            </summary>
+            <returns>毫秒计时</returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.ToDateString(System.DateTime)">
+            <summary>
+            转换成日期字符串
+            </summary>
+            <param name="time">时间对象</param>
+            <returns>yyyy-MM-dd</returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.ToTimeString(System.DateTime)">
+            <summary>
+            转换成时间字符串
+            </summary>
+            <param name="time">时间对象</param>
+            <returns>HH:mm:ss</returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.ToDateTimeString(System.DateTime)">
+            <summary>
+            转换成时间字符串
+            </summary>
+            <param name="time">时间对象</param>
+            <returns>yyyy-MM-dd HH:mm:ss</returns>
+        </member>
+        <member name="M:NetBase.TimeHelper.ToStandardDateTimeString(System.String)">
+            <summary>
+            转换成标准的时间字符串
+            </summary>
+            <param name="timestr">可能是非标准格式的时间源字符串</param>
+            <returns>yyyy-MM-dd HH:mm:ss</returns>
+        </member>
+        <member name="T:NetBase.Timer">
+            <summary>
+            高性能定时器类
+            </summary>
+        </member>
+        <member name="P:NetBase.Timer.HasStart">
+            <summary>
+            定时器是否已启动
+            </summary>
+        </member>
+        <member name="M:NetBase.Timer.Start(System.Int32,System.Action{System.Int32})">
+            <summary>
+            开启定时任务
+            </summary>
+            <param name="intervalInMillionSeconds">定时任务回调时间间隔，单位毫秒</param>
+            <param name="callback">回调函数，原型：void callback(int deltaTimeInMillionSeconds)</param>
+        </member>
+        <member name="M:NetBase.Timer.StartOnce(System.Int32,System.Action)">
+            <summary>
+            创建一个定时器，只延迟回调一次
+            </summary>
+            <param name="intervalInMillionSeconds">定时任务回调时间间隔，单位毫秒</param>
+            <param name="callback">回调函数</param>
+        </member>
+        <member name="M:NetBase.Timer.Delay(System.Int32)">
+            <summary>
+            异步延迟，用法：await timerObject.Delay(interval);
+            </summary>
+            <param name="intervalInMillionSeconds">延迟时间，单位毫秒</param>
+            <returns>Awaiter</returns>
+        </member>
+        <member name="M:NetBase.Timer.Stop">
+            <summary>
+            停止定时任务
+            </summary>
+        </member>
+        <member name="T:NetBase.TimerCore">
+            <summary>
+            基于分层时间轮算法的定时任务调度中心
+            </summary>
+        </member>
+        <member name="E:NetBase.TimerCore.HourChangedEvent">
+            <summary>
+            整点事件
+            </summary>
+        </member>
+        <member name="E:NetBase.TimerCore.CrossDayEvent">
+            <summary>
+            跨天事件
+            </summary>
+        </member>
+        <member name="M:NetBase.TimerCore.Schedule(System.Int32,System.Action{System.Int32})">
+            <summary>
+            创建一个定时器，定时回调
+            </summary>
+            <param name="intervalInMillionSeconds">定时任务回调时间间隔，单位毫秒</param>
+            <param name="callback">回调函数，原型：void callback(int deltaTimeInMillionSeconds)</param>
+            <returns>定时器唯一Id</returns>
+        </member>
+        <member name="M:NetBase.TimerCore.ScheduleOnce(System.Int32,System.Action)">
+            <summary>
+            创建一个定时器，只延迟回调一次
+            </summary>
+            <param name="intervalInMillionSeconds">定时任务回调时间间隔，单位毫秒</param>
+            <param name="callback">回调函数</param>
+            <returns>定时器唯一Id</returns>
+        </member>
+        <member name="M:NetBase.TimerCore.Unschedule(System.Int32)">
+            <summary>
+            取消某个定时任务
+            </summary>
+            <param name="timerId">定时器唯一Id</param>
+        </member>
+        <member name="M:NetBase.TimerCore.Run">
+            <summary>
+            由框架层每帧回调
+            </summary>
+        </member>
+        <member name="M:NetBase.TimerCore.Delay(System.Int32)">
+            <summary>
+            异步延迟，用法：await TimerCore.Delay(interval);
+            </summary>
+            <param name="intervalInMillionSeconds">延迟时间，单位毫秒</param>
+            <returns>Awaiter</returns>
+        </member>
+    </members>
+</doc>
