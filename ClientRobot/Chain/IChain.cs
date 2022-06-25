@@ -53,7 +53,7 @@ namespace Game
 
         public virtual void OnReceiveLogicData(byte[] buffer, int offset, int length)
         {
-            byte cryptFlag = buffer[0];
+            byte cryptFlag = buffer[offset];
             offset++;
             length--;
 
@@ -124,7 +124,7 @@ namespace Game
                 {
                     try
                     {
-                        NetErrorEvent.Invoke(extraInfo);
+                        NetErrorEvent?.Invoke(extraInfo);
                     }
                     catch (Exception ex)
                     {
@@ -134,7 +134,7 @@ namespace Game
 
                 try
                 {
-                    NetTerminateEvent.Invoke(disconnectType, extraInfo);
+                    NetTerminateEvent?.Invoke(disconnectType, extraInfo);
                 }
                 catch (Exception ex)
                 {
