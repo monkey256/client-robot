@@ -209,6 +209,10 @@ namespace Game
             if (packetLen > recvLength_)
                 return;
 
+            //缓冲区不足？
+            if (packetLen > sharedBuffer_.Length)
+                sharedBuffer_ = new byte[packetLen];
+
             recvLoopBuffer_.Read(sharedBuffer_, 0, packetLen, true);
             recvLength_ -= packetLen;
             OnReceiveLogicData(sharedBuffer_, 4, packetLen - 4);
