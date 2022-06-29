@@ -4,17 +4,6 @@
         <name>NetBaseLib</name>
     </assembly>
     <members>
-        <member name="T:System.Runtime.CompilerServices.AsyncMethodBuilderAttribute">
-            <summary>
-            AsyncMethodBuilder
-            </summary>
-        </member>
-        <member name="M:System.Runtime.CompilerServices.AsyncMethodBuilderAttribute.#ctor(System.Type)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="taskLike">类似Task类型</param>
-        </member>
         <member name="T:NetBase.AsyncTaskQueue">
             <summary>
             异步任务队列，保证异步任务按顺序触发执行。
@@ -383,6 +372,32 @@
             </summary>
             <param name="stateMachine">状态机</param>
         </member>
+        <member name="T:NetBase.AreaCodeHelper">
+            <summary>
+            国家区号辅助类
+            </summary>
+        </member>
+        <member name="M:NetBase.AreaCodeHelper.GetAreaCodeFromPhoneNumber(System.String)">
+            <summary>
+            从完整手机号码中获取区号
+            </summary>
+            <param name="phone">完整手机号</param>
+            <returns>区号</returns>
+        </member>
+        <member name="M:NetBase.AreaCodeHelper.ConvertAreaCodeToCountry(System.Int32)">
+            <summary>
+            将区号转换为对应国家或地区
+            </summary>
+            <param name="areaCode">区号</param>
+            <returns>国家或地区名称</returns>
+        </member>
+        <member name="M:NetBase.AreaCodeHelper.ConvertCountryToAreaCode(System.String)">
+            <summary>
+            将国家或地区转换为区号
+            </summary>
+            <param name="country">国家或地区名称</param>
+            <returns>区号</returns>
+        </member>
         <member name="T:NetBase.BaseApplication">
             <summary>
             基础应用程序类
@@ -435,6 +450,12 @@
             </summary>
             <param name="callback">回调函数</param>
         </member>
+        <member name="M:NetBase.BaseApplication.WaitForEndOfFrame">
+            <summary>
+            切换到主线程执行后续逻辑
+            </summary>
+            <returns>异步等待对象</returns>
+        </member>
         <member name="M:NetBase.BaseApplication.RegisterCommandHandler(System.String,System.String,System.Action{NetBase.CommandArgs})">
             <summary>
             注册GM命令处理函数
@@ -480,6 +501,18 @@
         </member>
         <member name="M:NetBase.BaseApplication.DoEvents">
             <summary>
+            运行一帧逻辑，该函数必须在主线程调用，ry>
+            主循环
+            </summary>
+        </member>
+        <member name="M:NetBase.BaseApplication.runOneFrame">
+            <summary>
+            运行一帧，返回是否繁忙
+            </summary>
+            <returns>是否繁忙</returns>
+        </member>
+        <member name="M:NetBase.BaseApplication.DoEvents">
+            <summary>
             运行一帧逻辑，该函数必须在主线程调用，其他工作线程调用无意义。
             </summary>
         </member>
@@ -499,7 +532,15 @@
         </member>
         <member name="M:NetBase.BaseExtensions.SwapToBackAndRemoveAt``1(System.Collections.Generic.List{``0},System.Int32)">
             <summary>
-            将指定�
+            将指定索引的元素与末尾元素互换位置，并移除末尾元素
+            </summary>
+            <typeparam name="T">泛型</typeparam>
+            <param name="list">列表容器</param>
+            <param name="index">指定索引</param>
+        </member>
+        <member name="M:NetBase.BaseExtensions.GetRandomElement``1(System.Collections.Generic.List{``0})">
+            <summary>
+            获取列表中一个随机元素
             </summary>
             <typeparam name="T">泛型</typeparam>
             <param name="list">列表容器</param>
@@ -577,17 +618,6 @@
             </summary>
         </member>
         <member name="M:NetBase.CommandArgs.HasFlag(System.String)">
-            <summary>
-            是否包含某个标记 -xx
-            </summary>
-            <param name="flag">标记字符串</param>
-            <returns></returns>
-        </member>
-        <member name="M:NetBase.CommandArgs.TryGetValue(System.String,System.String@)">
-            <summary>
-            尝试查询某个key对应的值
-            </summary>
-            <param name=".CommandArgs.HasFlag(System.String)">
             <summary>
             是否包含某个标记 -xx
             </summary>
@@ -778,6 +808,13 @@
             <summary>
             计算文件的Md5值
             </summary>
+        </member>
+        <member name="M:NetBase.Utility.CalculateCRC(System.String)">
+            <summary>
+            计算源字符串的crc校验和
+            </summary>
+            <param name="source">源字符串</param>
+            <returns>crc校验和</returns>
         </member>
         <member name="M:NetBase.Utility.GenerateCharString(System.Int32)">
             <summary>
@@ -1267,6 +1304,48 @@
             构造函数
             </summary>
             <param name="field_name">映射的字段名</param>
+        </member>
+        <member name="T:NetBase.SqlParser.SqlParserFsm">
+            <summary>
+            简单的sql语句解析类，提取操作类型、表名、操作字段等信息。
+            </summary>
+        </member>
+        <member name="P:NetBase.SqlParser.SqlParserFsm.Operation">
+            <summary>
+            操作类型：SELECT INSERT DELETE CALL
+            </summary>
+        </member>
+        <member name="P:NetBase.SqlParser.SqlParserFsm.TableName">
+            <summary>
+            表名
+            </summary>
+        </member>
+        <member name="P:NetBase.SqlParser.SqlParserFsm.Fields">
+            <summary>
+            操作字段列表
+            </summary>
+        </member>
+        <member name="P:NetBase.SqlParser.SqlParserFsm.HasError">
+            <summary>
+            是否存在错误
+            </summary>
+        </member>
+        <member name="P:NetBase.SqlParser.SqlParserFsm.ErrorMessage">
+            <summary>
+            错误描述信息
+            </summary>
+        </member>
+        <member name="M:NetBase.SqlParser.SqlParserFsm.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:NetBase.SqlParser.SqlParserFsm.ParseSql(System.String)">
+            <summary>
+            解析sql语句
+            </summary>
+            <param name="sql">sql语句</param>
+            <returns>是否成功</returns>
         </member>
         <member name="T:NetBase.FiniteState">
             <summary>

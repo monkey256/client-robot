@@ -17,14 +17,10 @@ namespace Game
         bool isSending_;
         byte[] recvBuffer_ = new byte[4096];
 
-        public override GameAwaiter<bool> ConnectAsync(string ip, int port, int timeoutInMillionSeconds)
+        public override async GameAwaiter<bool> ConnectAsync(string ip, int port, int timeoutInMillionSeconds)
         {
-            var r = new GameAwaiter<bool>();
             if (state_ != ConnectionState.None && state_ != ConnectionState.Disconnected)
-            {
-                r.SetResult(false);
-                return r;
-            }
+                return false;
 
             ip_ = ip;
             port_ = port;
@@ -33,48 +29,39 @@ namespace Game
             sendTaskQueue_ = new Queue<IBuffer>();
             recvLoopBuffer_ = new LoopBuffer(recvLoopBufferFactory_.AllocBuffer(), 0);
             recvLength_ = 0;
-            new Action(async () =>
+
+            //执行WebSocket异步Connect
+            var socket = socket_;
+            var token = new CancellationTokenSource(timeoutInMillionSeconds);
+            var url = $"ws://{ip}:{port}";
+            bool hasException = false;
+            try
             {
-                var socket = socket_;
-                var token = new CancellationTokenSource(timeoutInMillionSeconds);
-                var url = $"ws://{ip}:{port}";
-                bool hasException = false;
-                try
-                {
-                    await socket.ConnectAsync(new Uri(url), token.Token);
-                }
-                catch (Exception ex)
-                {
-                    Log.Error($"WebSocket建立连接失败，url:{url} ex:{ex.Message}");
-                    hasException = true;
-                }
-                BaseApplication.RunInMainThread(() =>
-                {
-                    if (socket != socket_)
-                    {
-                        r.SetResult(false);
-                        return;
-                    }
+                await socket.ConnectAsync(new Uri(url), token.Token);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"WebSocket建立连接失败，url:{url} ex:{ex.Message}");
+                hasException = true;
+            }
+            await BaseApplication.WaitForEndOfFrame(); //切换到主线程
+            if (socket != socket_)
+                return false;
 
-                    if (token.IsCancellationRequested || hasException)
-                    {
-                        state_ = ConnectionState.None;
-                        socket_ = null;
-                        sendTaskQueue_ = null;
-                        recvLoopBuffer_.Dispose();
-                        recvLoopBuffer_ = null;
-                        recvLength_ = 0;
-                        r.SetResult(false);
-                        return;
-                    }
+            if (token.IsCancellationRequested || hasException)
+            {
+                state_ = ConnectionState.None;
+                socket_ = null;
+                sendTaskQueue_ = null;
+                recvLoopBuffer_.Dispose();
+                recvLoopBuffer_ = null;
+                recvLength_ = 0;
+                return false;
+            }
 
-                    beginReceive(socket);
-                    state_ = ConnectionState.Established;
-                    r.SetResult(true);
-                });
-            }).Invoke();
-
-            return r;
+            beginReceive(socket);
+            state_ = ConnectionState.Established;
+            return true;
         }
 
         public override bool Send(byte[] buffer, int offset, int count)
@@ -111,26 +98,25 @@ namespace Game
                 errmessage = ex.Message;
             }
 
-            BaseApplication.RunInMainThread(() =>
+            await BaseApplication.WaitForEndOfFrame(); //切换到主线程
+
+            if (socket != socket_)
+                return;
+
+            if (hasException)
             {
-                if (socket != socket_)
-                    return;
+                Log.Error($"发送消息遇到异常：{errmessage}");
+                OnDisconnected(NetDisconnectType.NetError, errmessage);
+                return;
+            }
 
-                if (hasException)
-                {
-                    Log.Error($"发送消息遇到异常：{errmessage}");
-                    OnDisconnected(NetDisconnectType.NetError, errmessage);
-                    return;
-                }
-
-                isSending_ = false;
-                if (sendTaskQueue_.TryDequeue(out IBuffer ib))
-                {
-                    isSending_ = true;
-                    sendImpl(ib.Content, ib.Index, ib.Length);
-                    ib.Dispose();
-                }
-            });
+            isSending_ = false;
+            if (sendTaskQueue_.TryDequeue(out IBuffer ib))
+            {
+                isSending_ = true;
+                sendImpl(ib.Content, ib.Index, ib.Length);
+                ib.Dispose();
+            }
         }
 
         async void beginReceive(ClientWebSocket socket)
@@ -152,31 +138,30 @@ namespace Game
                 errmessage = ex.Message;
             }
 
-            BaseApplication.RunInMainThread(() =>
+            await BaseApplication.WaitForEndOfFrame(); //切换到主线程
+
+            if (socket_ != socket)
+                return;
+
+            if (hasException)
             {
-                if (socket_ != socket)
-                    return;
+                Log.Error($"接收消息遇到异常：{errmessage}");
+                OnDisconnected(NetDisconnectType.NetError, errmessage);
+                return;
+            }
 
-                if (hasException)
-                {
-                    Log.Error($"接收消息遇到异常：{errmessage}");
-                    OnDisconnected(NetDisconnectType.NetError, errmessage);
-                    return;
-                }
+            if (result.CloseStatus.HasValue)
+            {
+                var message = $"{result.CloseStatus.Value}:{result.CloseStatusDescription ?? string.Empty}";
+                Log.Debug($"连接断开：{message}");
+                OnDisconnected(NetDisconnectType.RemoteDisconnect, message);
+                return;
+            }
 
-                if (result.CloseStatus.HasValue)
-                {
-                    var message = $"{result.CloseStatus.Value}:{result.CloseStatusDescription ?? string.Empty}";
-                    Log.Debug($"连接断开：{message}");
-                    OnDisconnected(NetDisconnectType.RemoteDisconnect, message);
-                    return;
-                }
-
-                recvLoopBuffer_.Write(recvBuffer_, 0, result.Count);
-                recvLength_ += result.Count;
-                beginReceive(socket);
-                tryTriggerRecvBuffer();
-            });
+            recvLoopBuffer_.Write(recvBuffer_, 0, result.Count);
+            recvLength_ += result.Count;
+            beginReceive(socket);
+            tryTriggerRecvBuffer();
         }
 
         public override void Disconnect()
